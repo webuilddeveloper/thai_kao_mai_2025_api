@@ -283,6 +283,12 @@ namespace cms_api.Models
         public string center { get; set; }
         public string centerName { get; set; }
         public string centerNameEN { get; set; }
-       
+
+        public bool policyPage { get; set; }
+        public bool partyExecutivePage { get; set; }
+        public bool donatePage { get; set; }
+
+        public bool registerPage { get; set; }
+        public bool registerMemberPage { get; set; }
     }
 }

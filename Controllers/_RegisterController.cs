@@ -547,6 +547,18 @@ namespace cms_api.Controllers
                     { "notificationExamPage", value.notificationExamPage },
                     { "dashboardPage", value.dashboardPage },
 
+                    { "policyPage", value.policyPage },
+                    { "policyCategoryPage", value.policyCategoryPage },
+
+                    { "partyExecutivePage", value.partyExecutivePage },
+                    { "partyExecutiveCategoryPage", value.partyExecutiveCategoryPage },
+
+                    { "donatePage", value.donatePage },
+                    { "donateCategoryPage", value.donateCategoryPage },
+
+                    { "registerPage", value.registerPage },
+                    { "registerMemberPage", value.registerMemberPage },
+
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
                     { "createTime", DateTime.Now.toTimeStringFromDate() },
@@ -750,6 +762,18 @@ namespace cms_api.Controllers
                     c.notificationResultPage,
                     c.notificationExamPage,
                     c.dashboardPage,
+
+                    c.policyPage,
+                    c.policyCategoryPage,
+
+                    c.partyExecutivePage,
+                    c.partyExecutiveCategoryPage,
+
+                    c.donatePage,
+                    c.donateCategoryPage,
+
+                    c.registerPage,
+                    c.registerMemberPage,
                 }).ToList();
 
                 return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs, totalData = col.Find(filter).ToList().Count() };
@@ -921,6 +945,18 @@ namespace cms_api.Controllers
                 doc["notificationExamPage"] = value.notificationExamPage;
                 doc["dashboardPage"] = value.dashboardPage;
 
+                doc["policyPage"] = value.policyPage;
+                doc["policyCategoryPage"] = value.policyCategoryPage;
+
+                doc["partyExecutivePage"] = value.partyExecutivePage;
+                doc["partyExecutiveCategoryPage"] = value.partyExecutiveCategoryPage;
+
+                doc["donatePage"] = value.donatePage;
+                doc["donateCategoryPage"] = value.donateCategoryPage;
+
+                doc["registerPage"] = value.registerPage;
+                doc["registerMemberPage"] = value.registerMemberPage;
+
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
                 doc["updateTime"] = DateTime.Now.toTimeStringFromDate();
@@ -1029,6 +1065,13 @@ namespace cms_api.Controllers
                     { "expertBranchPage", value.expertBranchPage},
                     { "verifyApprovedUserPage", value.verifyApprovedUserPage},
                     { "trainingInstitutePage", value.trainingInstitutePage},
+
+                    { "policyPage", value.policyPage },
+                    { "partyExecutivePage", value.partyExecutivePage },
+                    { "donatePage", value.donatePage },
+
+
+
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
                     { "createTime", DateTime.Now.toTimeStringFromDate() },
@@ -1061,7 +1104,6 @@ namespace cms_api.Controllers
 
                 if (!string.IsNullOrEmpty(value.code)) { filter &= Builders<Permission>.Filter.Eq("reference", value.code); }
 
-                //var docs = col.Find(filter).SortByDescending(o => o.docDate).Skip(value.skip).Limit(value.limit).Project(c => new { c.page, c.category, c.newsPage, c.eventPage, c.contactPage, c.knowledgePage, c.privilegePage, c.poiPage, c.pollPage, c.suggestionPage, c.notificationPage }).ToList();
                 List<Permission> docs = col.Aggregate().Match(filter).SortByDescending(o => o.docDate).Skip(value.skip).Limit(value.limit)
                                      .Lookup("newsCategory", "category", "code", "newsCategoryList")
                                      .Lookup("importantCategory", "category", "code", "importantCategoryList")
@@ -1461,6 +1503,19 @@ namespace cms_api.Controllers
                     notificationResultPage = false,
                     notificationExamPage = false,
                     dashboardPage = false,
+
+
+                    policyPage = false,
+                    policyCategoryPage = false,
+
+                    partyExecutivePage = false,
+                    partyExecutiveCategoryPage = false,
+
+                    donatePage = false,
+                    donateCategoryPage = false,
+
+                    registerPage = false,
+                    registerMemberPage = false,
                 };
 
                 docs.ForEach(c =>
@@ -1498,6 +1553,17 @@ namespace cms_api.Controllers
                         c.portfolioPage,
                         c.portfolioCategoryPage,
 
+                        c.policyPage,
+                        c.policyCategoryPage,
+
+                        c.partyExecutivePage,
+                        c.partyExecutiveCategoryPage,
+
+                        c.donatePage,
+                        c.donateCategoryPage,
+
+                        c.registerPage,
+                        c.registerMemberPage,
 
                         //report
                         c.reportNumberMemberRegisterPage,
@@ -1675,6 +1741,20 @@ namespace cms_api.Controllers
                         if (CategoryDoc.policyMarketingPage) { category.policyMarketingPage = CategoryDoc.policyMarketingPage; };
                         if (CategoryDoc.memberMobilePolicyApplicationPage) { category.memberMobilePolicyApplicationPage = CategoryDoc.memberMobilePolicyApplicationPage; };
                         if (CategoryDoc.memberMobilePolicyMarketingPage) { category.memberMobilePolicyMarketingPage = CategoryDoc.memberMobilePolicyMarketingPage; };
+
+                        if (CategoryDoc.policyPage) { category.policyPage = CategoryDoc.policyPage; };
+                        if (CategoryDoc.policyCategoryPage) { category.policyCategoryPage = CategoryDoc.policyCategoryPage; };
+
+                        if (CategoryDoc.partyExecutivePage) { category.partyExecutivePage = CategoryDoc.partyExecutivePage; };
+                        if (CategoryDoc.partyExecutiveCategoryPage) { category.partyExecutiveCategoryPage = CategoryDoc.partyExecutiveCategoryPage; };
+
+                        if (CategoryDoc.donatePage) { category.donatePage = CategoryDoc.donatePage; };
+                        if (CategoryDoc.donateCategoryPage) { category.donateCategoryPage = CategoryDoc.donateCategoryPage; };
+
+                        if (CategoryDoc.registerPage) { category.registerPage = CategoryDoc.registerPage; };
+                        if (CategoryDoc.registerMemberPage) { category.registerMemberPage = CategoryDoc.registerMemberPage; };
+
+
                         //report
                         if (CategoryDoc.reportNumberMemberRegisterPage) { category.reportNumberMemberRegisterPage = CategoryDoc.reportNumberMemberRegisterPage; };
                         if (CategoryDoc.reportMemberRegisterPage) { category.reportMemberRegisterPage = CategoryDoc.reportMemberRegisterPage; };
@@ -1852,6 +1932,15 @@ namespace cms_api.Controllers
                         case "certificatePage":
                             CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.certificatePage, true);
                             break;
+                        case "policyPage":
+                            CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.policyPage, true);
+                            break;
+                        case "partyExecutivePage":
+                            CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.partyExecutivePage, true);
+                            break;
+                        case "donatePage":
+                            CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.donatePage, true);
+                            break;
                         case "policyPartyPage":
                             CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.policyPartyPage, true);
                             break;
@@ -1963,6 +2052,15 @@ namespace cms_api.Controllers
                                 break;
                             case "certificatePage":
                                 permissionFilter &= Builders<Permission>.Filter.Eq(x => x.certificatePage, true);
+                                break;
+                            case "policyPage":
+                                CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.policyPage, true);
+                                break;
+                            case "partyExecutivePage":
+                                CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.partyExecutivePage, true);
+                                break;
+                            case "donatePage":
+                                CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.donatePage, true);
                                 break;
                             case "policyPartyPage":
                                 permissionFilter &= Builders<Permission>.Filter.Eq(x => x.policyPartyPage, true);

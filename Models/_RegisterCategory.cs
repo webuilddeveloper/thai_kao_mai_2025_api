@@ -145,6 +145,10 @@ namespace cms_api.Models
         public bool portfolioCategoryPage { get; set; }
         public bool policyPartyCategoryPage { get; set; }
 
+        public bool policyCategoryPage { get; set; }
+        public bool partyExecutiveCategoryPage { get; set; }
+        public bool donateCategoryPage { get; set; }
+
     }
 
 }
