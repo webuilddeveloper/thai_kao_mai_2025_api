@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>cms_api</RootNamespace>
-    <AssemblyName>wtm-api</AssemblyName>
+    <RootNamespace>thai_kao_mai_api</RootNamespace>
+    <AssemblyName>thai-kao-mai-api</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
