@@ -556,6 +556,9 @@ namespace cms_api.Controllers
                     { "donatePage", value.donatePage },
                     { "donateCategoryPage", value.donateCategoryPage },
 
+                    { "registerPage", value.registerPage },
+                    { "registerMemberPage", value.registerMemberPage },
+
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
                     { "createTime", DateTime.Now.toTimeStringFromDate() },
@@ -768,6 +771,9 @@ namespace cms_api.Controllers
 
                     c.donatePage,
                     c.donateCategoryPage,
+
+                    c.registerPage,
+                    c.registerMemberPage,
                 }).ToList();
 
                 return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs, totalData = col.Find(filter).ToList().Count() };
@@ -947,6 +953,9 @@ namespace cms_api.Controllers
 
                 doc["donatePage"] = value.donatePage;
                 doc["donateCategoryPage"] = value.donateCategoryPage;
+
+                doc["registerPage"] = value.registerPage;
+                doc["registerMemberPage"] = value.registerMemberPage;
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
@@ -1504,6 +1513,9 @@ namespace cms_api.Controllers
 
                     donatePage = false,
                     donateCategoryPage = false,
+
+                    registerPage = false,
+                    registerMemberPage = false,
                 };
 
                 docs.ForEach(c =>
@@ -1549,6 +1561,9 @@ namespace cms_api.Controllers
 
                         c.donatePage,
                         c.donateCategoryPage,
+
+                        c.registerPage,
+                        c.registerMemberPage,
 
                         //report
                         c.reportNumberMemberRegisterPage,
@@ -1735,6 +1750,9 @@ namespace cms_api.Controllers
 
                         if (CategoryDoc.donatePage) { category.donatePage = CategoryDoc.donatePage; };
                         if (CategoryDoc.donateCategoryPage) { category.donateCategoryPage = CategoryDoc.donateCategoryPage; };
+
+                        if (CategoryDoc.registerPage) { category.registerPage = CategoryDoc.registerPage; };
+                        if (CategoryDoc.registerMemberPage) { category.registerMemberPage = CategoryDoc.registerMemberPage; };
 
 
                         //report
