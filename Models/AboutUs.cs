@@ -21,7 +21,11 @@ namespace cms_api.Models
             lineOfficial = "";
             vision = "";
             visionEN = "";
-            description = "";
+            mission = "";
+            missionEN = "";
+            ideologyDes = "";
+            ideologyDesEN = "";
+            ideologyList = new List<Ideology>();
         }
 
         public string imageLogoUrl { get; set; }
@@ -38,8 +42,21 @@ namespace cms_api.Models
         public string lineOfficial { get; set; }
         public string vision { get; set; }
         public string visionEN { get; set; }
-        public List<Identity> missionList { get; set; }
+        public string mission { get; set; }
+        public string missionEN { get; set; }
+        public string ideologyDes { get; set; }
+        public string ideologyDesEN { get; set; }
+        public List<Ideology> ideologyList { get; set; }
 
        
+    }
+
+    public class Ideology
+    {
+        public int sequence { get; set; }
+        public string title { get; set; }
+        public string titleEN { get; set; }
+        public string description { get; set; }
+        public string descriptionEN { get; set; }
     }
 }

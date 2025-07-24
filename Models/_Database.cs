@@ -9,7 +9,7 @@ namespace cms_api.Models
         public string _mongoConnection { get; set; }
         public string _databaseName { get; set; }
 
-        public Database(string db = "wtm_prod")
+        public Database(string db = "thai_kao_mai_prod")
         {
             this._mongoConnection = "mongodb://127.0.0.1:27017";
             //this._mongoConnection = "mongodb://adminvet:V3t321@209.15.96.238:28018";

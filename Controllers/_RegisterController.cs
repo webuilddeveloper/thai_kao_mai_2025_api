@@ -468,6 +468,7 @@ namespace cms_api.Controllers
                     { "portfolioCategoryPage", value.portfolioCategoryPage },
                     { "employeeCategoryPage", value.employeeCategoryPage },
                     { "certificateCategoryPage", value.certificateCategoryPage },
+                    { "policyPartyCategoryPage", value.policyPartyCategoryPage },
 
 
                     { "newsCategoryPage", value.newsCategoryPage },
@@ -675,6 +676,7 @@ namespace cms_api.Controllers
                     c.workProcessPage,
                     c.certificatePage,
                     c.certificateCategoryPage,
+                    c.policyPartyCategoryPage,
 
                     c.newsCategoryPage,
                     c.importantCategoryPage,
@@ -838,6 +840,7 @@ namespace cms_api.Controllers
                 doc["portfolioCategoryPage"] = value.portfolioCategoryPage;
                 doc["employeeCategoryPage"] = value.employeeCategoryPage;
                 doc["certificateCategoryPage"] = value.certificateCategoryPage;
+                doc["policyPartyCategoryPage"] = value.policyPartyCategoryPage;
 
                 doc["policyApplicationPage"] = value.policyApplicationPage;
                 doc["policyMarketingPage"] = value.policyMarketingPage;
@@ -1085,6 +1088,7 @@ namespace cms_api.Controllers
                                      .Lookup("productCategory", "category", "code", "productCategoryList")
                                      .Lookup("employeeCategory", "category", "code", "employeeCategoryList")
                                      .Lookup("certificateCategory", "category", "code", "certificateCategoryList")
+                                     .Lookup("policyPartyCategoryPage", "category", "code", "policyPartyCategoryList")
                                      .As<Permission>()
                                      .ToList();
 
@@ -1409,6 +1413,7 @@ namespace cms_api.Controllers
                     employeeCategoryPage = false,
                     certificatePage = false,
                     certificateCategoryPage = false,
+                    policyPartyCategoryPage = false,
 
                     workProcessPage = false,
                     portfolioPage = false,
@@ -1481,6 +1486,7 @@ namespace cms_api.Controllers
                         c.employeeCategoryPage,
                         c.certificatePage,
                         c.certificateCategoryPage,
+                        c.policyPartyCategoryPage,
 
                         c.workProcessPage,
                         c.portfolioPage,
@@ -1623,8 +1629,10 @@ namespace cms_api.Controllers
 
                         if (CategoryDoc.certificatePage) { category.certificatePage = CategoryDoc.certificatePage; };
                         if (CategoryDoc.certificateCategoryPage) { category.certificateCategoryPage = CategoryDoc.certificateCategoryPage; };
+                        if (CategoryDoc.policyPartyCategoryPage) { category.policyPartyCategoryPage = CategoryDoc.policyPartyCategoryPage; };
 
-                        if (CategoryDoc.newsCategoryPage) { category.newsCategoryPage = CategoryDoc.newsCategoryPage; };
+                        if (CategoryDoc.newsCategoryPage) { category.newsCategoryPage = CategoryDoc.newsCategoryPage; }
+                        ;
                         if (CategoryDoc.importantCategoryPage) { category.importantCategoryPage = CategoryDoc.importantCategoryPage; };
                         if (CategoryDoc.eventCategoryPage) { category.eventCategoryPage = CategoryDoc.eventCategoryPage; };
                         if (CategoryDoc.contactCategoryPage) { category.contactCategoryPage = CategoryDoc.contactCategoryPage; };

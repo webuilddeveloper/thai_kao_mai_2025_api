@@ -76,7 +76,7 @@ namespace cms_api.Models
         public int limit { get; set; }
         public string startDate { get; set; }
         public string endDate { get; set; }
-       
+
         public bool createAction { get; set; }
         public bool readAction { get; set; }
         public bool updateAction { get; set; }
@@ -143,6 +143,7 @@ namespace cms_api.Models
         public bool employeeCategoryPage { get; set; }
         public bool certificateCategoryPage { get; set; }
         public bool portfolioCategoryPage { get; set; }
+        public bool policyPartyCategoryPage { get; set; }
 
     }
 

@@ -56,12 +56,18 @@ namespace cms_api.Controllers
                     { "lineOfficial", value.lineOfficial},
                     { "vision", value.vision },
                     { "visionEN", value.visionEN },
-                    { "missionList", new BsonArray(
-                        value.missionList.Select((m, index) => new BsonDocument
+                    { "mission", value.mission },
+                    { "missionEN", value.missionEN },
+                    { "ideologyDes", value.mission },
+                    { "ideologyDesEN", value.missionEN },
+                    { "ideologyList", new BsonArray(
+                        value.ideologyList?.Select((m, index) => new BsonDocument
                         {
                             { "sequence", index + 1 },
                             { "title", m.title },
-                            { "titleEN", m.titleEN }
+                            { "titleEN", m.titleEN },
+                            { "description", m.description },
+                            { "descriptionEN", m.descriptionEN },
                         }))
                     },
                     { "youtube", value.youtube},
@@ -97,7 +103,7 @@ namespace cms_api.Controllers
                 //if (!string.IsNullOrEmpty(value.code)) { filter = filter & Builders<AboutUs>.Filter.Eq("code", value.code); }
                 if (!string.IsNullOrEmpty(codeCenter)) { filter = filter & Builders<AboutUs>.Filter.Eq("center", codeCenter); }
                 else { filter = filter & Builders<AboutUs>.Filter.Eq("center", ""); }
-                var docs = col.Find(filter).Project(c => new { c.code, c.isActive, c.title,c.titleEN, c.imageLogoUrl, c.imageBgUrl, c.description, c.descriptionEN, c.vision, c.visionEN, c.latitude, c.email, c.site, c.longitude, c.address,c.addressEN, c.facebook, c.youtube, c.telephone, c.createBy, c.createDate, c.updateBy, c.updateDate, c.lineOfficial, missionList = (c.missionList ?? Enumerable.Empty<Identity>()).Select(x => new {sequence = x.sequence, title = x.title, titleEN = x.titleEN} ) }).ToList();
+                var docs = col.Find(filter).Project(c => new { c.code, c.isActive, c.title,c.titleEN, c.imageLogoUrl, c.imageBgUrl, c.description, c.descriptionEN, c.vision, c.visionEN, c.mission, c.missionEN, c.latitude, c.email, c.site, c.longitude, c.address,c.addressEN, c.facebook, c.youtube, c.telephone, c.createBy, c.createDate, c.updateBy, c.updateDate, c.lineOfficial, c.ideologyDes, c.ideologyDesEN, ideologyList = (c.ideologyList ?? Enumerable.Empty<Ideology>()).Select(x => new {sequence = x.sequence, title = x.title, titleEN = x.titleEN, description = x.description, descriptionEN = x.descriptionEN } ) }).ToList();
                 return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs };
             }
             catch (Exception ex)
@@ -140,12 +146,18 @@ namespace cms_api.Controllers
                     doc["updateBy"] = value.updateBy ?? "";
                     doc["vision"] = value.vision ?? "";
                     doc["visionEN"] = value.visionEN ?? "";
-                    doc["missionList"] = new BsonArray(
-                        value.missionList.Select((m, index) => new BsonDocument
+                    doc["mission"] = value.mission ?? "";
+                    doc["missionEN"] = value.missionEN ?? "";
+                    doc["ideologyDes"] = value.ideologyDes ?? "";
+                    doc["ideologyDesEN"] = value.ideologyDesEN ?? "";
+                    doc["ideologyList"] = new BsonArray(
+                        value.ideologyList.Select((m, index) => new BsonDocument
                         {
                             { "sequence", index + 1 },
                             { "title", m.title },
-                            { "titleEN", m.titleEN }
+                            { "titleEN", m.titleEN },
+                            { "description", m.description },
+                            { "descriptionEN", m.descriptionEN },
                         }));
 
                     doc["updateDate"] = DateTime.Now.toStringFromDate();
@@ -173,12 +185,16 @@ namespace cms_api.Controllers
                         { "lineOfficial", value.lineOfficial  ?? ""},
                         { "vision", value.vision  ?? ""},
                         { "visionEN", value.visionEN  ?? ""},
-                        { "missionList", new BsonArray(
-                            value.missionList.Select((m, index) => new BsonDocument
+                        { "mission", value.mission  ?? ""},
+                        { "missionEN", value.missionEN  ?? ""},
+                        { "ideologyList", new BsonArray(
+                            value.ideologyList.Select((m, index) => new BsonDocument
                             {
                                 { "sequence", index + 1 },
                                 { "title", m.title },
-                                { "titleEN", m.titleEN }
+                                { "titleEN", m.titleEN },
+                                { "description", m.description },
+                                { "descriptionEN", m.descriptionEN },
                             }))
                         },
                         { "youtube", value.youtube  ?? ""},

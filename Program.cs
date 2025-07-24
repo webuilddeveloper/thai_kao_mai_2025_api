@@ -21,7 +21,7 @@ namespace cms_api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                    .UseUrls("http://localhost:8500/");
+                    .UseUrls("http://localhost:8600/");
                 });
     }
 }
