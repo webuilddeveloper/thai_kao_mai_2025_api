@@ -288,7 +288,7 @@ namespace cms_api.Models
         public bool partyExecutivePage { get; set; }
         public bool donatePage { get; set; }
 
-        public bool registerPage { get; set; }
-        public bool registerMemberPage { get; set; }
+        public bool partyMembersPage { get; set; }
+        public bool partyFanClubPage { get; set; }
     }
 }

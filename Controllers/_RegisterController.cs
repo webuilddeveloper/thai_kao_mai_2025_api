@@ -556,8 +556,8 @@ namespace cms_api.Controllers
                     { "donatePage", value.donatePage },
                     { "donateCategoryPage", value.donateCategoryPage },
 
-                    { "registerPage", value.registerPage },
-                    { "registerMemberPage", value.registerMemberPage },
+                    { "partyMembersPage", value.partyMembersPage },
+                    { "partyFanClubPage", value.partyFanClubPage },
 
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
@@ -772,8 +772,8 @@ namespace cms_api.Controllers
                     c.donatePage,
                     c.donateCategoryPage,
 
-                    c.registerPage,
-                    c.registerMemberPage,
+                    c.partyMembersPage,
+                    c.partyFanClubPage,
                 }).ToList();
 
                 return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs, totalData = col.Find(filter).ToList().Count() };
@@ -954,8 +954,8 @@ namespace cms_api.Controllers
                 doc["donatePage"] = value.donatePage;
                 doc["donateCategoryPage"] = value.donateCategoryPage;
 
-                doc["registerPage"] = value.registerPage;
-                doc["registerMemberPage"] = value.registerMemberPage;
+                doc["partyMembersPage"] = value.partyMembersPage;
+                doc["partyFanClubPage"] = value.partyFanClubPage;
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
@@ -1514,8 +1514,8 @@ namespace cms_api.Controllers
                     donatePage = false,
                     donateCategoryPage = false,
 
-                    registerPage = false,
-                    registerMemberPage = false,
+                    partyMembersPage = false,
+                    partyFanClubPage = false,
                 };
 
                 docs.ForEach(c =>
@@ -1562,8 +1562,8 @@ namespace cms_api.Controllers
                         c.donatePage,
                         c.donateCategoryPage,
 
-                        c.registerPage,
-                        c.registerMemberPage,
+                        c.partyMembersPage,
+                        c.partyFanClubPage,
 
                         //report
                         c.reportNumberMemberRegisterPage,
@@ -1751,8 +1751,8 @@ namespace cms_api.Controllers
                         if (CategoryDoc.donatePage) { category.donatePage = CategoryDoc.donatePage; };
                         if (CategoryDoc.donateCategoryPage) { category.donateCategoryPage = CategoryDoc.donateCategoryPage; };
 
-                        if (CategoryDoc.registerPage) { category.registerPage = CategoryDoc.registerPage; };
-                        if (CategoryDoc.registerMemberPage) { category.registerMemberPage = CategoryDoc.registerMemberPage; };
+                        if (CategoryDoc.partyMembersPage) { category.partyMembersPage = CategoryDoc.partyMembersPage; };
+                        if (CategoryDoc.partyFanClubPage) { category.partyFanClubPage = CategoryDoc.partyFanClubPage; };
 
 
                         //report
