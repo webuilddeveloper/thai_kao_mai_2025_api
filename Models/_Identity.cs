@@ -249,6 +249,7 @@ namespace cms_api.Models
         public bool workProcessPage { get; set; }
         public bool portfolioPage { get; set; }
         public bool certificatePage { get; set; }
+        public bool policyPartyPage { get; set; }
 
 
         public bool byPass { get; set; }
