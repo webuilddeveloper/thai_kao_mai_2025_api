@@ -1922,6 +1922,7 @@ namespace cms_api.Controllers
                             break;
                         case "donatePage":
                             CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.donatePage, true);
+                            break;
                         case "policyPartyPage":
                             CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.policyPartyPage, true);
                             break;
@@ -2042,6 +2043,7 @@ namespace cms_api.Controllers
                                 break;
                             case "donatePage":
                                 CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.donatePage, true);
+                                break;
                             case "policyPartyPage":
                                 permissionFilter &= Builders<Permission>.Filter.Eq(x => x.policyPartyPage, true);
                                 break;
