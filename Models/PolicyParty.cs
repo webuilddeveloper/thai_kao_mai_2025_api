@@ -9,13 +9,13 @@ namespace thai_kao_mai_api.Models
     {
         public PolicyParty()
         {
-            status2 = "";
+        
             imageUrl = "";
             imageBanner = "";
             imageUrlCreateBy = "";
         }
 
-        public string status2 { get; set; }
+        
         public string imageUrl { get; set; }
         public string imageBanner { get; set; }
         public string imageUrlCreateBy { get; set; }
