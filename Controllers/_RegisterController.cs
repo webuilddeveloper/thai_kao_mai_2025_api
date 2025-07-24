@@ -463,6 +463,7 @@ namespace cms_api.Controllers
                     { "workProcessPage", value.workProcessPage },
                     { "portfolioPage", value.portfolioPage },
                     { "certificatePage", value.certificatePage },
+                    { "policyPartyPage", value.policyPartyPage },
 
                     { "productCategoryPage", value.productCategoryPage },
                     { "portfolioCategoryPage", value.portfolioCategoryPage },
@@ -685,6 +686,7 @@ namespace cms_api.Controllers
                     c.workProcessPage,
                     c.certificatePage,
                     c.certificateCategoryPage,
+                    c.policyPartyPage,
                     c.policyPartyCategoryPage,
 
                     c.newsCategoryPage,
@@ -853,6 +855,7 @@ namespace cms_api.Controllers
                 doc["workProcessPage"] = value.workProcessPage;
                 doc["portfolioPage"] = value.portfolioPage;
                 doc["certificatePage"] = value.certificatePage;
+                doc["policyPartyPage"] = value.policyPartyPage;
 
                 doc["productCategoryPage"] = value.productCategoryPage;
                 doc["portfolioCategoryPage"] = value.portfolioCategoryPage;
@@ -1046,6 +1049,7 @@ namespace cms_api.Controllers
                     { "workProcessPage", value.workProcessPage},
                     { "portfolioPage", value.portfolioPage},
                     { "certificatePage", value.certificatePage},
+                    { "policyPartyPage", value.policyPartyPage},
 
 
                     { "lawPage", value.lawPage},
@@ -1446,6 +1450,7 @@ namespace cms_api.Controllers
                     employeeCategoryPage = false,
                     certificatePage = false,
                     certificateCategoryPage = false,
+                    policyPartyPage = false,
                     policyPartyCategoryPage = false,
 
                     workProcessPage = false,
@@ -1529,6 +1534,7 @@ namespace cms_api.Controllers
                         c.employeeCategoryPage,
                         c.certificatePage,
                         c.certificateCategoryPage,
+                        c.policyPartyPage,
                         c.policyPartyCategoryPage,
 
                         c.workProcessPage,
@@ -1679,6 +1685,7 @@ namespace cms_api.Controllers
                         if (CategoryDoc.portfolioCategoryPage) { category.portfolioCategoryPage = CategoryDoc.portfolioCategoryPage; };
 
                         if (CategoryDoc.certificatePage) { category.certificatePage = CategoryDoc.certificatePage; };
+                        if (CategoryDoc.policyPartyPage) { category.policyPartyPage = CategoryDoc.policyPartyPage; };
                         if (CategoryDoc.certificateCategoryPage) { category.certificateCategoryPage = CategoryDoc.certificateCategoryPage; };
                         if (CategoryDoc.policyPartyCategoryPage) { category.policyPartyCategoryPage = CategoryDoc.policyPartyCategoryPage; };
 
@@ -1915,6 +1922,8 @@ namespace cms_api.Controllers
                             break;
                         case "donatePage":
                             CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.donatePage, true);
+                        case "policyPartyPage":
+                            CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.policyPartyPage, true);
                             break;
                         default:
                             break;
@@ -2033,6 +2042,8 @@ namespace cms_api.Controllers
                                 break;
                             case "donatePage":
                                 CategoryFilter &= Builders<RegisterCategory>.Filter.Eq(x => x.donatePage, true);
+                            case "policyPartyPage":
+                                permissionFilter &= Builders<Permission>.Filter.Eq(x => x.policyPartyPage, true);
                                 break;
                             default:
                                 break;
