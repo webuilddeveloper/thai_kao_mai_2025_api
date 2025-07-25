@@ -40,7 +40,7 @@ namespace cms_api.Controllers
                 {
                     { "code", value.code },
 
-                    { "idcard", value.idcard },
+                    //{ "idcard", value.idcard },
                     { "prefixName", value.prefixName },
                     { "firstName", value.firstName },
                     { "lastName", value.lastName },
@@ -92,7 +92,7 @@ namespace cms_api.Controllers
                 new
                 {
                     c.code,
-                    c.idcard,
+                    //c.idcard,
                     c.prefixName,
                     c.firstName,
                     c.lastName,
@@ -134,7 +134,7 @@ namespace cms_api.Controllers
                 doc = col.Find(filter).FirstOrDefault();
                 var model = BsonSerializer.Deserialize<object>(doc);
 
-                if (!string.IsNullOrEmpty(value.idcard)) { doc["idcard"] = value.idcard; }
+                //if (!string.IsNullOrEmpty(value.idcard)) { doc["idcard"] = value.idcard; }
                 if (!string.IsNullOrEmpty(value.prefixName)) { doc["prefixName"] = value.prefixName; }
                 if (!string.IsNullOrEmpty(value.firstName)) { doc["firstName"] = value.firstName; }
                 if (!string.IsNullOrEmpty(value.lastName)) { doc["lastName"] = value.lastName; }
