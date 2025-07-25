@@ -54,8 +54,7 @@ namespace cms_api.Models
         public string tambon { get; set; }
         public string postnoCode { get; set; }
 
-        public bool monthlyMembership { get; set; }
-        public bool lifetimeMembership { get; set; }
+        public string membershipType { get; set; }
         public string imagePaymentUrl { get; set; }
     }
 }

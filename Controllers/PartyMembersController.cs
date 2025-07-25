@@ -63,8 +63,7 @@ namespace cms_api.Controllers
                     { "tambon", value.tambon },
                     { "postnoCode", value.postnoCode },
 
-                    { "monthlyMembership", value.monthlyMembership },
-                    { "lifetimeMembership", value.lifetimeMembership },
+                    { "membershipType", value.membershipType },
                     { "imagePaymentUrl", value.imagePaymentUrl },
 
 
@@ -134,8 +133,7 @@ namespace cms_api.Controllers
                     c.tambon,
                     c.postnoCode,
 
-                    c.monthlyMembership,
-                    c.lifetimeMembership,
+                    c.membershipType,
                     c.imagePaymentUrl,
 
                     c.createBy,
@@ -195,8 +193,7 @@ namespace cms_api.Controllers
                 doc["tambon"] = value.tambon;
                 doc["postnoCode"] = value.postnoCode;
 
-                doc["monthlyMembership"] = value.monthlyMembership;
-                doc["lifetimeMembership"] = value.lifetimeMembership;
+                doc["membershipType"] = value.membershipType;
                 if (!string.IsNullOrEmpty(value.imagePaymentUrl)) { doc["imagePaymentUrl"] = value.imagePaymentUrl; }
 
                 doc["updateBy"] = value.updateBy;
