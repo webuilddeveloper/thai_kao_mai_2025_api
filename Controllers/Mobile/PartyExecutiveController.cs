@@ -140,7 +140,7 @@ namespace mobile_api.Controllers
                         var filterRegister = Builders<Register>.Filter.Eq("username", c.updateBy);
                         Register docRegister = colRegister.Find(filterRegister).Project(c => new Register { imageUrl = c.imageUrl, firstName = c.firstName, lastName = c.lastName, center = c.center }).FirstOrDefault();
 
-                        c.imageUrlCreateBy = docRegister.imageUrl;
+                        //c.imageUrlCreateBy = docRegister.imageUrl;
                         c.updateBy = docRegister.firstName + " " + docRegister.lastName;
 
                         var filterRegister2 = Builders<Register>.Filter.Eq("username", c.createBy);
@@ -151,8 +151,8 @@ namespace mobile_api.Controllers
                         {
                             code = c.code,
                             category = c.category,
-                            email = c.email,
-                            description = c.description,
+                            title = c.title,
+                            imageUrl = c.imageUrl,
 
                             createBy = c.createBy,
                             createDate = c.createDate,
