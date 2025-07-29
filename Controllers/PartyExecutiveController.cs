@@ -30,8 +30,8 @@ namespace cms_api.Controllers
             var doc = new BsonDocument();
             try
             {
-                var col = new Database().MongoClient( "partyExecutive");
-                var colRegister = new Database().MongoClient<Register>( "register");
+                var col = new Database().MongoClient("partyExecutive");
+                var colRegister = new Database().MongoClient<Register>("register");
 
                 //check duplicate
                 value.code = "".toCode();
@@ -45,6 +45,7 @@ namespace cms_api.Controllers
                 {
                     { "code", value.code },
 
+                    { "sequence", value.sequence },
                     { "category", value.category },
                     //{ "title", value.title },
                     { "title", value.title },
@@ -59,18 +60,19 @@ namespace cms_api.Controllers
                     { "updateTime", DateTime.Now.toTimeStringFromDate() },
                     { "docDate", DateTime.Now.Date.AddHours(7) },
                     { "docTime", DateTime.Now.toTimeStringFromDate() },
-                    { "isActive", value.status == "A" ? true : false },
-                    { "status", value.status },
-                };
+                    { "isActive", value.isActive},
+                    { "status", value.isActive ? "A" : "N" },
+
+            };
                 col.InsertOne(doc);
 
-               
 
-                return new Response { status = "S", message = "success",  objectData = BsonSerializer.Deserialize<object>(doc) };
+
+                return new Response { status = "S", message = "success", objectData = BsonSerializer.Deserialize<object>(doc) };
             }
             catch (Exception ex)
             {
-                return new Response { status = "E", message = ex.Message,  objectData = BsonSerializer.Deserialize<object>(doc) };
+                return new Response { status = "E", message = ex.Message, objectData = BsonSerializer.Deserialize<object>(doc) };
             }
         }
 
@@ -159,6 +161,8 @@ namespace cms_api.Controllers
 
                 doc = col.Find(filter).FirstOrDefault();
                 var model = BsonSerializer.Deserialize<object>(doc);
+
+                doc["sequence"] = value.sequence;
                 if (!string.IsNullOrEmpty(value.category)) { doc["category"] = value.category; }
                 doc["title"] = value.title;
                 doc["imageUrl"] = value.imageUrl;
@@ -166,8 +170,8 @@ namespace cms_api.Controllers
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
                 doc["updateTime"] = DateTime.Now.toTimeStringFromDate();
-                doc["isActive"] = value.status == "A" ? true:false;
-                doc["status"] = value.status;
+                doc["isActive"] = value.isActive;
+                doc["status"] = value.isActive ? "A" : "N";
 
                 col.ReplaceOne(filter, doc);
 
@@ -401,6 +405,7 @@ namespace cms_api.Controllers
                     { "sequence", value.sequence },
                     { "language", value.language },
                     { "title", value.title },
+                    { "titleEN", value.titleEN },
                     { "imageUrl", value.imageUrl },
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
@@ -459,7 +464,7 @@ namespace cms_api.Controllers
 
                 }
 
-                var docs = col.Find(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).Skip(value.skip).Limit(value.limit).Project(c => new { c.code, c.title, c.language, c.imageUrl, c.createBy, c.createDate, c.isActive, c.updateBy, c.updateDate, c.sequence }).ToList();
+                var docs = col.Find(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).Skip(value.skip).Limit(value.limit).Project(c => new { c.code, c.title, c.language, c.imageUrl, c.createBy, c.createDate, c.isActive, c.updateBy, c.updateDate, c.sequence,c.titleEN }).ToList();
 
                 return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs, totalData = col.Find(filter).ToList().Count() };
             }
@@ -483,6 +488,7 @@ namespace cms_api.Controllers
                 doc = col.Find(filter).FirstOrDefault();
                 var model = BsonSerializer.Deserialize<object>(doc);
                 if (!string.IsNullOrEmpty(value.title)) { doc["title"] = value.title; }
+                if (!string.IsNullOrEmpty(value.title)) { doc["titleEN"] = value.titleEN; }
                 if (!string.IsNullOrEmpty(value.imageUrl)) { doc["imageUrl"] = value.imageUrl; }
                 if (!string.IsNullOrEmpty(value.language)) { doc["language"] = value.language; }
                 doc["sequence"] = value.sequence;

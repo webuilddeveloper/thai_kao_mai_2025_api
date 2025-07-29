@@ -25,7 +25,44 @@ namespace mobile_api.Controllers
                 //filter = filter | Builders<AboutUs>.Filter.Eq("isActive", false);
                 if (!string.IsNullOrEmpty(value.code)) { filter = filter & Builders<AboutUs>.Filter.Regex("code", value.code); }
 
-                var docs = col.Find(filter).Project(c => new { c.code, c.isActive, c.title, c.imageLogoUrl, c.imageBgUrl, c.description, c.latitude, c.email, c.site, c.longitude, c.address, c.facebook, c.youtube, c.telephone, c.createBy, c.createDate, c.updateBy, c.updateDate, c.lineOfficial }).FirstOrDefault();
+                var docs = col.Find(filter).Project(c => new
+                {
+                    c.code,
+                    c.isActive,
+                    c.title,
+                    c.titleEN,
+                    c.imageLogoUrl,
+                    c.imageBgUrl,
+                    c.description,
+                    c.descriptionEN,
+                    c.vision,
+                    c.visionEN,
+                    c.mission,
+                    c.missionEN,
+                    c.latitude,
+                    c.email,
+                    c.site,
+                    c.longitude,
+                    c.address,
+                    c.addressEN,
+                    c.facebook,
+                    c.youtube,
+                    c.telephone,
+                    c.createBy,
+                    c.createDate,
+                    c.updateBy,
+                    c.updateDate,
+                    c.lineOfficial,
+                    c.ideologyDes,
+                    c.ideologyDesEN,
+                    ideologyList = (c.ideologyList ?? Enumerable.Empty<Ideology>()).Select(x => new
+                    {
+                        sequence = x.sequence,
+                        title = x.title,
+                        titleEN = x.titleEN,
+                        description = x.description,
+                        descriptionEN = x.descriptionEN })
+                }).FirstOrDefault();
 
                 //BEGIN : Statistic
                 try
