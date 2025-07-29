@@ -45,6 +45,7 @@ namespace cms_api.Controllers
                 {
                     { "code", value.code },
 
+                    { "sequence", value.sequence },
                     { "category", value.category },
                     //{ "title", value.title },
                     { "title", value.title },
@@ -159,6 +160,8 @@ namespace cms_api.Controllers
 
                 doc = col.Find(filter).FirstOrDefault();
                 var model = BsonSerializer.Deserialize<object>(doc);
+
+                doc["sequence"] = value.sequence;
                 if (!string.IsNullOrEmpty(value.category)) { doc["category"] = value.category; }
                 doc["title"] = value.title;
                 doc["imageUrl"] = value.imageUrl;

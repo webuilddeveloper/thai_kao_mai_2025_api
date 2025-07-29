@@ -150,6 +150,7 @@ namespace mobile_api.Controllers
                         result.Add(new
                         {
                             code = c.code,
+                            sequence = c.sequence,
                             category = c.category,
                             title = c.title,
                             imageUrl = c.imageUrl,
