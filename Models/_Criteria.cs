@@ -21,6 +21,7 @@ namespace cms_api.Models
             category2 = "";
             categoryItem = "";
             description = "";
+            descriptionEN = "";
             createBy = "";
             updateBy = "";
             isActive = false;
@@ -120,6 +121,7 @@ namespace cms_api.Models
         public string category2 { get; set; }
         public string categoryItem { get; set; }
         public string description { get; set; }
+        public string descriptionEN { get; set; }
         public string dateStart { get; set; }
         public string dateEnd { get; set; }
         public string createBy { get; set; }
