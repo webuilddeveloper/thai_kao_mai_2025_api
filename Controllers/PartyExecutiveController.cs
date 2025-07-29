@@ -30,8 +30,8 @@ namespace cms_api.Controllers
             var doc = new BsonDocument();
             try
             {
-                var col = new Database().MongoClient( "partyExecutive");
-                var colRegister = new Database().MongoClient<Register>( "register");
+                var col = new Database().MongoClient("partyExecutive");
+                var colRegister = new Database().MongoClient<Register>("register");
 
                 //check duplicate
                 value.code = "".toCode();
@@ -60,18 +60,19 @@ namespace cms_api.Controllers
                     { "updateTime", DateTime.Now.toTimeStringFromDate() },
                     { "docDate", DateTime.Now.Date.AddHours(7) },
                     { "docTime", DateTime.Now.toTimeStringFromDate() },
-                    { "isActive", value.status == "A" ? true : false },
-                    { "status", value.status },
-                };
+                    { "isActive", value.isActive},
+                    { "status", value.isActive ? "A" : "N" },
+
+            };
                 col.InsertOne(doc);
 
-               
 
-                return new Response { status = "S", message = "success",  objectData = BsonSerializer.Deserialize<object>(doc) };
+
+                return new Response { status = "S", message = "success", objectData = BsonSerializer.Deserialize<object>(doc) };
             }
             catch (Exception ex)
             {
-                return new Response { status = "E", message = ex.Message,  objectData = BsonSerializer.Deserialize<object>(doc) };
+                return new Response { status = "E", message = ex.Message, objectData = BsonSerializer.Deserialize<object>(doc) };
             }
         }
 
@@ -169,8 +170,8 @@ namespace cms_api.Controllers
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
                 doc["updateTime"] = DateTime.Now.toTimeStringFromDate();
-                doc["isActive"] = value.status == "A" ? true:false;
-                doc["status"] = value.status;
+                doc["isActive"] = value.isActive;
+                doc["status"] = value.isActive ? "A" : "N";
 
                 col.ReplaceOne(filter, doc);
 
