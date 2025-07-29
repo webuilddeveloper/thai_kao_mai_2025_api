@@ -15,6 +15,7 @@ using thai_kao_mai_api.Models;
 
 namespace thai_kao_mai_api.Controllers
 {
+    [Route("[controller]")]
     public class DonateController : Controller
     {
 
@@ -34,7 +35,7 @@ namespace thai_kao_mai_api.Controllers
             var doc = new BsonDocument();
             try
             {
-                var col = new Database().MongoClient("news");
+                var col = new Database().MongoClient("donate");
                 var colRegister = new Database().MongoClient<Register>("register");
 
                 //check duplicate
@@ -78,11 +79,11 @@ namespace thai_kao_mai_api.Controllers
                     { "updateTime", DateTime.Now.toTimeStringFromDate() },
                     { "docDate", DateTime.Now.Date.AddHours(7) },
                     { "docTime", DateTime.Now.toTimeStringFromDate() },
-                    { "isActive", value.isActive },
-                    { "isPublic", value.isPublic },
-                    { "isHighlight", value.isHighlight },
+                    //{ "isActive", value.isActive },
+                    { "isActive", true },
                     { "isNotification", value.isNotification },
-                    { "status", value.isActive ? "A" : "N" },
+                    //{ "status", value.isActive ? "A" : "N" },
+                    { "status", "A" },
                     { "lv0", value.lv0 },
                     { "lv1", value.lv1 },
                     { "lv2", value.lv2 },
@@ -111,7 +112,7 @@ namespace thai_kao_mai_api.Controllers
         {
             try
             {
-                new Criteria { code = value.code, title = value.title, updateBy = value.updateBy }.WriteLog("Read", "News");
+                new Criteria { code = value.code, title = value.title, updateBy = value.updateBy }.WriteLog("Read", "Donate");
             }
             catch { }
 
@@ -226,7 +227,7 @@ namespace thai_kao_mai_api.Controllers
                 if (value.isNotification)
                 {
                     new NotificationController().CreateSend(new NotificationSend { username = value.updateBy, category = value.category, reference = value.code });
-                    _ = new NotificationController().PushTopics(new Notification { to = "/topics/all", title = value.title, description = value.description, data = new DataPush { page = "NEWS", code = value.code } });
+                    _ = new NotificationController().PushTopics(new Notification { to = "/topics/all", title = value.title, description = value.description, data = new DataPush { page = "DONATE", code = value.code } });
                 }
 
                 return new Response { status = "S", message = "success", jsonData = doc.ToJson(), objectData = BsonSerializer.Deserialize<object>(doc) };
@@ -239,11 +240,11 @@ namespace thai_kao_mai_api.Controllers
 
         // POST /delete
         [HttpPost("delete")]
-        public ActionResult<Response> Delete([FromBody] News value)
+        public ActionResult<Response> Delete([FromBody] Donate value)
         {
             try
             {
-                var col = new Database().MongoClient("news");
+                var col = new Database().MongoClient("donate");
 
                 var codeList = value.code.Split(",");
 
@@ -251,7 +252,7 @@ namespace thai_kao_mai_api.Controllers
                 {
                     try
                     {
-                        new Criteria { code = code, title = value.title, updateBy = value.updateBy }.WriteLog("Delete", "News");
+                        new Criteria { code = code, title = value.title, updateBy = value.updateBy }.WriteLog("Delete", "Donate");
                     }
                     catch (Exception ex)
                     {
@@ -284,7 +285,7 @@ namespace thai_kao_mai_api.Controllers
 
             try
             {
-                var col = new Database().MongoClient("newsCategory");
+                var col = new Database().MongoClient("donateCategory");
 
                 //check duplicate
                 value.code = "".toCode();
@@ -328,7 +329,7 @@ namespace thai_kao_mai_api.Controllers
         {
             try
             {
-                var col = new Database().MongoClient<Category>("newsCategory");
+                var col = new Database().MongoClient<Category>("donateCategory");
 
                 var filter = Builders<Category>.Filter.Ne("status", "D");
                 if (!string.IsNullOrEmpty(value.keySearch))
@@ -376,7 +377,7 @@ namespace thai_kao_mai_api.Controllers
             var doc = new BsonDocument();
             try
             {
-                var col = new Database().MongoClient("newsCategory");
+                var col = new Database().MongoClient("donateCategory");
 
                 var filter = Builders<BsonDocument>.Filter.Eq("code", value.code);
                 doc = col.Find(filter).FirstOrDefault();
@@ -395,7 +396,7 @@ namespace thai_kao_mai_api.Controllers
                 // ------- update content ------
                 if (!value.isActive)
                 {
-                    var collectionContent = new Database().MongoClient("news");
+                    var collectionContent = new Database().MongoClient("donate");
                     var filterContent = Builders<BsonDocument>.Filter.Eq("category", value.code);
                     var updateContent = Builders<BsonDocument>.Update.Set("isActive", false).Set("status", "N");
                     collectionContent.UpdateMany(filterContent, updateContent);
@@ -407,7 +408,7 @@ namespace thai_kao_mai_api.Controllers
                 {
                     var collectionPermission = new Database().MongoClient("registerPermission");
                     var filterPermission = Builders<BsonDocument>.Filter.Eq("category", value.code);
-                    var updatePermission = Builders<BsonDocument>.Update.Set("newsPage", false).Set("isActive", false);
+                    var updatePermission = Builders<BsonDocument>.Update.Set("donatePage", false).Set("isActive", false);
                     collectionPermission.UpdateMany(filterPermission, updatePermission);
                 }
                 // ------- end ------
@@ -426,7 +427,7 @@ namespace thai_kao_mai_api.Controllers
         {
             try
             {
-                var col = new Database().MongoClient("newsCategory");
+                var col = new Database().MongoClient("donateCategory");
 
                 var filter = Builders<BsonDocument>.Filter.Eq("code", value.code);
                 var update = Builders<BsonDocument>.Update.Set("status", "D").Set("updateBy", value.updateBy).Set("updateDate", DateTime.Now.toStringFromDate());
@@ -435,7 +436,7 @@ namespace thai_kao_mai_api.Controllers
                 // ------- update content ------
                 if (!value.isActive)
                 {
-                    var collectionContent = new Database().MongoClient("news");
+                    var collectionContent = new Database().MongoClient("donate");
                     var filterContent = Builders<BsonDocument>.Filter.Eq("category", value.code);
                     var updateContent = Builders<BsonDocument>.Update.Set("isActive", false).Set("status", "D");
                     collectionContent.UpdateMany(filterContent, updateContent);
@@ -447,7 +448,7 @@ namespace thai_kao_mai_api.Controllers
                 {
                     var collectionPermission = new Database().MongoClient("registerPermission");
                     var filterPermission = Builders<BsonDocument>.Filter.Eq("category", value.code);
-                    var updatePermission = Builders<BsonDocument>.Update.Set("newsPage", false).Set("isActive", false);
+                    var updatePermission = Builders<BsonDocument>.Update.Set("donatePage", false).Set("isActive", false);
                     collectionPermission.UpdateMany(filterPermission, updatePermission);
                 }
                 // ------- end ------

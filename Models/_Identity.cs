@@ -250,6 +250,7 @@ namespace cms_api.Models
         public bool portfolioPage { get; set; }
         public bool certificatePage { get; set; }
         public bool policyPartyPage { get; set; }
+        public bool donatePage { get; set; }
 
 
         public bool byPass { get; set; }
@@ -286,7 +287,6 @@ namespace cms_api.Models
 
         public bool policyPage { get; set; }
         public bool partyExecutivePage { get; set; }
-        public bool donatePage { get; set; }
 
         public bool partyMembersPage { get; set; }
         public bool partyFanClubPage { get; set; }

@@ -464,12 +464,14 @@ namespace cms_api.Controllers
                     { "portfolioPage", value.portfolioPage },
                     { "certificatePage", value.certificatePage },
                     { "policyPartyPage", value.policyPartyPage },
+                    { "donatePage", value.donatePage },
 
                     { "productCategoryPage", value.productCategoryPage },
                     { "portfolioCategoryPage", value.portfolioCategoryPage },
                     { "employeeCategoryPage", value.employeeCategoryPage },
                     { "certificateCategoryPage", value.certificateCategoryPage },
                     { "policyPartyCategoryPage", value.policyPartyCategoryPage },
+                    { "donateCategoryPage", value.donateCategoryPage },
 
 
                     { "newsCategoryPage", value.newsCategoryPage },
@@ -552,9 +554,6 @@ namespace cms_api.Controllers
 
                     { "partyExecutivePage", value.partyExecutivePage },
                     { "partyExecutiveCategoryPage", value.partyExecutiveCategoryPage },
-
-                    { "donatePage", value.donatePage },
-                    { "donateCategoryPage", value.donateCategoryPage },
 
                     { "partyMembersPage", value.partyMembersPage },
                     { "partyFanClubPage", value.partyFanClubPage },
@@ -691,6 +690,8 @@ namespace cms_api.Controllers
                     c.certificateCategoryPage,
                     c.policyPartyPage,
                     c.policyPartyCategoryPage,
+                    c.donatePage,
+                    c.donateCategoryPage,
 
                     c.newsCategoryPage,
                     c.importantCategoryPage,
@@ -768,9 +769,6 @@ namespace cms_api.Controllers
 
                     c.partyExecutivePage,
                     c.partyExecutiveCategoryPage,
-
-                    c.donatePage,
-                    c.donateCategoryPage,
 
                     c.partyMembersPage,
                     c.partyFanClubPage,
@@ -862,12 +860,14 @@ namespace cms_api.Controllers
                 doc["portfolioPage"] = value.portfolioPage;
                 doc["certificatePage"] = value.certificatePage;
                 doc["policyPartyPage"] = value.policyPartyPage;
+                doc["donatePage"] = value.donatePage;
 
                 doc["productCategoryPage"] = value.productCategoryPage;
                 doc["portfolioCategoryPage"] = value.portfolioCategoryPage;
                 doc["employeeCategoryPage"] = value.employeeCategoryPage;
                 doc["certificateCategoryPage"] = value.certificateCategoryPage;
                 doc["policyPartyCategoryPage"] = value.policyPartyCategoryPage;
+                doc["donateCategoryPage"] = value.donateCategoryPage;
 
                 doc["policyApplicationPage"] = value.policyApplicationPage;
                 doc["policyMarketingPage"] = value.policyMarketingPage;
@@ -950,9 +950,6 @@ namespace cms_api.Controllers
 
                 doc["partyExecutivePage"] = value.partyExecutivePage;
                 doc["partyExecutiveCategoryPage"] = value.partyExecutiveCategoryPage;
-
-                doc["donatePage"] = value.donatePage;
-                doc["donateCategoryPage"] = value.donateCategoryPage;
 
                 doc["partyMembersPage"] = value.partyMembersPage;
                 doc["partyFanClubPage"] = value.partyFanClubPage;
@@ -1059,6 +1056,7 @@ namespace cms_api.Controllers
                     { "portfolioPage", value.portfolioPage},
                     { "certificatePage", value.certificatePage},
                     { "policyPartyPage", value.policyPartyPage},
+                    { "donatePage", value.donatePage},
 
 
                     { "lawPage", value.lawPage},
@@ -1068,7 +1066,6 @@ namespace cms_api.Controllers
 
                     { "policyPage", value.policyPage },
                     { "partyExecutivePage", value.partyExecutivePage },
-                    { "donatePage", value.donatePage },
 
 
 
@@ -1461,6 +1458,8 @@ namespace cms_api.Controllers
                     certificateCategoryPage = false,
                     policyPartyPage = false,
                     policyPartyCategoryPage = false,
+                    donatePage = false,
+                    donateCategoryPage = false,
 
                     workProcessPage = false,
                     portfolioPage = false,
@@ -1511,9 +1510,6 @@ namespace cms_api.Controllers
                     partyExecutivePage = false,
                     partyExecutiveCategoryPage = false,
 
-                    donatePage = false,
-                    donateCategoryPage = false,
-
                     partyMembersPage = false,
                     partyFanClubPage = false,
                 };
@@ -1548,6 +1544,8 @@ namespace cms_api.Controllers
                         c.certificateCategoryPage,
                         c.policyPartyPage,
                         c.policyPartyCategoryPage,
+                        c.donatePage,
+                        c.donateCategoryPage,
 
                         c.workProcessPage,
                         c.portfolioPage,
@@ -1558,9 +1556,6 @@ namespace cms_api.Controllers
 
                         c.partyExecutivePage,
                         c.partyExecutiveCategoryPage,
-
-                        c.donatePage,
-                        c.donateCategoryPage,
 
                         c.partyMembersPage,
                         c.partyFanClubPage,
@@ -1701,8 +1696,10 @@ namespace cms_api.Controllers
 
                         if (CategoryDoc.certificatePage) { category.certificatePage = CategoryDoc.certificatePage; };
                         if (CategoryDoc.policyPartyPage) { category.policyPartyPage = CategoryDoc.policyPartyPage; };
+                        if (CategoryDoc.donatePage) { category.donatePage = CategoryDoc.donatePage; };
                         if (CategoryDoc.certificateCategoryPage) { category.certificateCategoryPage = CategoryDoc.certificateCategoryPage; };
                         if (CategoryDoc.policyPartyCategoryPage) { category.policyPartyCategoryPage = CategoryDoc.policyPartyCategoryPage; };
+                        if (CategoryDoc.donateCategoryPage) { category.donateCategoryPage = CategoryDoc.donateCategoryPage; };
 
                         if (CategoryDoc.newsCategoryPage) { category.newsCategoryPage = CategoryDoc.newsCategoryPage; }
                         ;
@@ -1748,8 +1745,6 @@ namespace cms_api.Controllers
                         if (CategoryDoc.partyExecutivePage) { category.partyExecutivePage = CategoryDoc.partyExecutivePage; };
                         if (CategoryDoc.partyExecutiveCategoryPage) { category.partyExecutiveCategoryPage = CategoryDoc.partyExecutiveCategoryPage; };
 
-                        if (CategoryDoc.donatePage) { category.donatePage = CategoryDoc.donatePage; };
-                        if (CategoryDoc.donateCategoryPage) { category.donateCategoryPage = CategoryDoc.donateCategoryPage; };
 
                         if (CategoryDoc.partyMembersPage) { category.partyMembersPage = CategoryDoc.partyMembersPage; };
                         if (CategoryDoc.partyFanClubPage) { category.partyFanClubPage = CategoryDoc.partyFanClubPage; };
