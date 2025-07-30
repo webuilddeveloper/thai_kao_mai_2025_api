@@ -21,7 +21,8 @@ namespace mobile_api.Controllers
             {
                 var col = new Database().MongoClient<AboutUs>("aboutUs");
 
-                var filter = Builders<AboutUs>.Filter.Eq("code", "1");
+                //var filter = Builders<AboutUs>.Filter.Eq("code", "1");
+                var filter = Builders<AboutUs>.Filter.Ne("status", "D");
                 //filter = filter | Builders<AboutUs>.Filter.Eq("isActive", false);
                 if (!string.IsNullOrEmpty(value.code)) { filter = filter & Builders<AboutUs>.Filter.Regex("code", value.code); }
 
@@ -62,6 +63,7 @@ namespace mobile_api.Controllers
                         titleEN = x.titleEN,
                         description = x.description,
                         descriptionEN = x.descriptionEN })
+
                 }).FirstOrDefault();
 
                 //BEGIN : Statistic
