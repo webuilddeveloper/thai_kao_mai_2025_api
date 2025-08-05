@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using cms_api.Extension;
 using cms_api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -39,7 +41,6 @@ namespace cms_api.Controllers
                 doc = new BsonDocument
                 {
                     { "code", value.code },
-
                     { "idcard", value.idcard },
                     { "prefixName", value.prefixName },
                     { "firstName", value.firstName },
@@ -47,11 +48,32 @@ namespace cms_api.Controllers
                     { "birthDay", value.birthDay },
                     { "phone", value.phone },
                     { "email", value.email},
-                    { "imageUrl", value.imageUrl },
-                    { "imageIdCardUrl", value.imageIdCardUrl },
+
+                    { "religion", value.religion},
+                    { "age", value.age},
+                    { "provinceBirthCode", value.provinceBirthCode},
+                    { "nationality", value.nationality},
+                    { "issueDate", value.issueDate},
+                    { "expiryDate", value.expiryDate},
+                    { "provinceIssueCode", value.provinceIssueCode},
+                    { "provinceIssue", value.provinceIssue},
+                    { "districtIssueCode", value.districtIssueCode},
+                    { "districtIssue", value.districtIssue},
+                    { "highestLevelEducation", value.highestLevelEducation},
+                    { "institute", value.institute},
+                    { "currentOccupation", value.currentOccupation},
+                    { "position", value.position},
+                    { "workplace", value.workplace},
+                    { "telephone", value.telephone},
+                    { "fax", value.fax},
+                    { "partyRegisterHistory", value.partyRegisterHistory},
+                    { "partyOldName", value.partyOldName},
+                    { "copyIDCard", value.copyIDCard},
+                    { "copyHouseRegistration", value.copyHouseRegistration},
+                    { "nameChangeCertificate", value.nameChangeCertificate},
+                    { "onFilePhoto1_5", value.onFilePhoto1_5},
 
                     { "address", value.address },
-                    { "village", value.village },
                     { "moo", value.moo },
                     { "soi", value.soi },
                     { "road", value.road },
@@ -62,11 +84,6 @@ namespace cms_api.Controllers
                     { "tambonCode", value.tambonCode },
                     { "tambon", value.tambon },
                     { "postnoCode", value.postnoCode },
-
-                    { "membershipType", value.membershipType },
-                    { "imagePaymentUrl", value.imagePaymentUrl },
-
-
 
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
@@ -117,11 +134,33 @@ namespace cms_api.Controllers
                     c.birthDay,
                     c.phone,
                     c.email,
-                    c.imageUrl,
-                    c.imageIdCardUrl,
+
+                    c.religion,
+                    c.age,
+                    c.provinceBirthCode,
+                    c.provinceBirth,
+                    c.nationality,
+                    c.issueDate,
+                    c.expiryDate,
+                    c.provinceIssueCode,
+                    c.provinceIssue,
+                    c.districtIssueCode,
+                    c.districtIssue,
+                    c.highestLevelEducation,
+                    c.institute,
+                    c.currentOccupation,
+                    c.position,
+                    c.workplace,
+                    c.telephone,
+                    c.fax,
+                    c.partyRegisterHistory,
+                    c.partyOldName,
+                    c.copyIDCard,
+                    c.copyHouseRegistration,
+                    c.nameChangeCertificate,
+                    c.onFilePhoto1_5,
 
                     c.address,
-                    c.village,
                     c.moo,
                     c.soi,
                     c.road,
@@ -132,9 +171,6 @@ namespace cms_api.Controllers
                     c.tambonCode,
                     c.tambon,
                     c.postnoCode,
-
-                    c.membershipType,
-                    c.imagePaymentUrl,
 
                     c.createBy,
                     c.createDate,
@@ -178,10 +214,9 @@ namespace cms_api.Controllers
                 if (!string.IsNullOrEmpty(value.email)) { doc["email"] = value.email; }
                 if (!string.IsNullOrEmpty(value.imageUrl)) { doc["imageUrl"] = value.imageUrl; }
                 if (!string.IsNullOrEmpty(value.imageIdCardUrl)) { doc["imageIdCardUrl"] = value.imageIdCardUrl; }
-                
+
 
                 doc["address"] = value.address;
-                doc["village"] = value.village;
                 doc["moo"] = value.moo;
                 doc["soi"] = value.soi;
                 doc["road"] = value.road;
@@ -193,8 +228,30 @@ namespace cms_api.Controllers
                 doc["tambon"] = value.tambon;
                 doc["postnoCode"] = value.postnoCode;
 
-                doc["membershipType"] = value.membershipType;
-                if (!string.IsNullOrEmpty(value.imagePaymentUrl)) { doc["imagePaymentUrl"] = value.imagePaymentUrl; }
+                doc["religion"] = value.religion;
+                doc["age"] = value.age;
+                doc["provinceBirthCode"] = value.provinceBirthCode;
+                doc["provinceBirth"] = value.provinceBirth;
+                doc["nationality"] = value.nationality;
+                doc["issueDate"] = value.issueDate;
+                doc["expiryDate"] = value.expiryDate;
+                doc["provinceIssueCode"] = value.provinceIssueCode;
+                doc["provinceIssue"] = value.provinceIssue;
+                doc["districtIssueCode"] = value.districtIssueCode;
+                doc["districtIssue"] = value.districtIssue;
+                doc["highestLevelEducation"] = value.highestLevelEducation;
+                doc["institute"] = value.institute;
+                doc["currentOccupation"] = value.currentOccupation;
+                doc["position"] = value.position;
+                doc["workplace"] = value.workplace;
+                doc["telephone"] = value.telephone;
+                doc["fax"] = value.fax;
+                doc["partyRegisterHistory"] = value.partyRegisterHistory;
+                doc["partyOldName"] = value.partyOldName;
+                doc["copyIDCard"] = value.copyIDCard;
+                doc["copyHouseRegistration"] = value.copyHouseRegistration;
+                doc["nameChangeCertificate"] = value.nameChangeCertificate;
+                doc["onFilePhoto1_5"] = value.onFilePhoto1_5;
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();

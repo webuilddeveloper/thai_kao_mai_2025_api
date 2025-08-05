@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 namespace cms_api.Models
 {
     public class PartyMembers : Identity
@@ -15,8 +18,32 @@ namespace cms_api.Models
             imageUrl = "";
             imageIdCardUrl = "";
 
+            religion = "";
+            age = 0;
+            provinceBirthCode = "";
+            provinceBirth = "";
+            nationality = "";
+            issueDate = "";
+            expiryDate = "";
+            provinceIssueCode = "";
+            provinceIssue = "";
+            districtIssueCode = "";
+            districtIssue = "";
+            highestLevelEducation = "";
+            institute = "";
+            currentOccupation = "";
+            position = "";
+            workplace = "";
+            telephone = "";
+            fax = "";
+            partyRegisterHistory = "";
+            partyOldName = "";
+            copyIDCard = "";
+            copyHouseRegistration = "";
+            nameChangeCertificate = "";
+            onFilePhoto1_5 = "";
+
             address = "";
-            village = "";
             moo = "";
             soi = "";
             road = "";
@@ -28,7 +55,6 @@ namespace cms_api.Models
             tambon = "";
             postnoCode = "";
 
-            imagePaymentUrl = "";
         }
 
         public string idcard { get; set; }
@@ -41,8 +67,33 @@ namespace cms_api.Models
         public string imageUrl { get; set; }
         public string imageIdCardUrl { get; set; }
 
+        public string religion { get; set; }
+        public decimal age { get; set; }
+        public string provinceBirthCode { get; set; }
+        public string provinceBirth { get; set; }
+
+        public string nationality { get; set; }
+        public string issueDate { get; set; }
+        public string expiryDate { get; set; }
+        public string provinceIssueCode { get; set; }
+        public string provinceIssue { get; set; }
+        public string districtIssueCode { get; set; }
+        public string districtIssue { get; set; }
+        public string highestLevelEducation { get; set; }
+        public string institute { get; set; }
+        public string currentOccupation { get; set; }
+        public string position { get; set; }
+        public string workplace { get; set; }
+        public string telephone { get; set; }
+        public string fax { get; set; }
+        public string partyRegisterHistory { get; set; }
+        public string partyOldName { get; set; }
+        public string copyIDCard { get; set; }
+        public string copyHouseRegistration { get; set; }
+        public string nameChangeCertificate { get; set; }
+        public string onFilePhoto1_5 { get; set; }
+
         public string address { get; set; }
-        public string village { get; set; }
         public string moo { get; set; }
         public string soi { get; set; }
         public string road { get; set; }
@@ -53,8 +104,5 @@ namespace cms_api.Models
         public string tambonCode { get; set; }
         public string tambon { get; set; }
         public string postnoCode { get; set; }
-
-        public string membershipType { get; set; }
-        public string imagePaymentUrl { get; set; }
     }
 }
