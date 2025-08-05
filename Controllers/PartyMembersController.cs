@@ -254,7 +254,7 @@ namespace cms_api.Controllers
                 doc["telephone"] = value.telephone;
                 doc["fax"] = value.fax;
                 doc["partyRegisterHistory"] = value.partyRegisterHistory;
-                doc["partyOldName"] = value.partyOldName;
+                if (!string.IsNullOrEmpty(value.partyOldName)) { doc["partyOldName"] = value.partyOldName; }
                 doc["copyIDCard"] = value.copyIDCard;
                 doc["copyHouseRegistration"] = value.copyHouseRegistration;
                 doc["nameChangeCertificate"] = value.nameChangeCertificate;
