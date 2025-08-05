@@ -56,6 +56,8 @@ namespace cms_api.Models
             tambon = "";
             postnoCode = "";
 
+            partyOfficials = "";
+
         }
 
         public string idcard { get; set; }
@@ -106,5 +108,7 @@ namespace cms_api.Models
         public string tambonCode { get; set; }
         public string tambon { get; set; }
         public string postnoCode { get; set; }
+
+        public string partyOfficials { get; set; }
     }
 }

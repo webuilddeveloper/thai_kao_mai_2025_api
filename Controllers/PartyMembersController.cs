@@ -64,6 +64,8 @@ namespace cms_api.Controllers
                     { "faculty_major", value.faculty_major},
                     { "institute", value.institute},
                     { "currentOccupation", value.currentOccupation},
+                    { "partyOfficials", value.partyOfficials},
+                    
                     { "position", value.position},
                     { "workplace", value.workplace},
                     { "telephone", value.telephone},
@@ -162,6 +164,7 @@ namespace cms_api.Controllers
                     c.copyHouseRegistration,
                     c.nameChangeCertificate,
                     c.onFilePhoto1_5,
+                    c.partyOfficials,
 
                     c.address,
                     c.moo,
@@ -256,6 +259,7 @@ namespace cms_api.Controllers
                 doc["copyHouseRegistration"] = value.copyHouseRegistration;
                 doc["nameChangeCertificate"] = value.nameChangeCertificate;
                 doc["onFilePhoto1_5"] = value.onFilePhoto1_5;
+                doc["partyOfficials"] = value.partyOfficials;
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
