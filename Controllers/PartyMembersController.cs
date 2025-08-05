@@ -236,17 +236,17 @@ namespace cms_api.Controllers
 
                 doc["religion"] = value.religion;
                 doc["age"] = value.age;
-                doc["provinceBirthCode"] = value.provinceBirthCode;
-                doc["provinceBirth"] = value.provinceBirth;
+                if (!string.IsNullOrEmpty(value.provinceBirthCode)) { doc["provinceBirthCode"] = value.provinceBirthCode; }
+                if (!string.IsNullOrEmpty(value.provinceBirth)) { doc["provinceBirth"] = value.provinceBirth; }
                 doc["nationality"] = value.nationality;
                 doc["issueDate"] = value.issueDate;
                 doc["expiryDate"] = value.expiryDate;
-                doc["provinceIssueCode"] = value.provinceIssueCode;
-                doc["provinceIssue"] = value.provinceIssue;
-                doc["districtIssueCode"] = value.districtIssueCode;
-                doc["districtIssue"] = value.districtIssue;
+                if (!string.IsNullOrEmpty(value.provinceIssueCode)) { doc["provinceIssueCode"] = value.provinceIssueCode; }
+                if (!string.IsNullOrEmpty(value.provinceIssue)) { doc["provinceIssue"] = value.provinceIssue; }
+                if (!string.IsNullOrEmpty(value.districtIssueCode)) { doc["districtIssueCode"] = value.districtIssueCode; }
+                if (!string.IsNullOrEmpty(value.districtIssue)) { doc["districtIssue"] = value.districtIssue; }
                 doc["highestLevelEducation"] = value.highestLevelEducation;
-                doc["faculty_major"] = value.faculty_major;
+                if (!string.IsNullOrEmpty(value.faculty_major)) { doc["faculty_major"] = value.faculty_major; }
                 doc["institute"] = value.institute;
                 doc["currentOccupation"] = value.currentOccupation;
                 doc["position"] = value.position;
@@ -259,7 +259,7 @@ namespace cms_api.Controllers
                 doc["copyHouseRegistration"] = value.copyHouseRegistration;
                 doc["nameChangeCertificate"] = value.nameChangeCertificate;
                 doc["onFilePhoto1_5"] = value.onFilePhoto1_5;
-                doc["partyOfficials"] = value.partyOfficials;
+                if (!string.IsNullOrEmpty(value.partyOfficials)) { doc["partyOfficials"] = value.partyOfficials; }
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
