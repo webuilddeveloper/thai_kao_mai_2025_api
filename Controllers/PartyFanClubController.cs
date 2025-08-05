@@ -48,6 +48,11 @@ namespace cms_api.Controllers
                     //{ "phone", value.phone },
                     { "email", value.email},
 
+                    { "volunteerWorkArea", value.volunteerWorkArea},
+                    { "thinkTank", value.thinkTank},
+                    { "trainingDemocrats", value.trainingDemocrats},
+                    { "applyPartyMembership", value.applyPartyMembership},
+
 
 
                     { "createBy", value.updateBy },
@@ -100,6 +105,11 @@ namespace cms_api.Controllers
                     //c.phone,
                     c.email,
 
+                    c.volunteerWorkArea,
+                    c.thinkTank,
+                    c.trainingDemocrats,
+                    c.applyPartyMembership,
+
 
                     c.createBy,
                     c.createDate,
@@ -141,7 +151,11 @@ namespace cms_api.Controllers
                 //if (!string.IsNullOrEmpty(value.birthDay)) { doc["birthDay"] = value.birthDay; }
                 //if (!string.IsNullOrEmpty(value.phone)) { doc["phone"] = value.phone; }
                 if (!string.IsNullOrEmpty(value.email)) { doc["email"] = value.email; }
-               
+
+                doc["volunteerWorkArea"] = value.volunteerWorkArea;
+                doc["thinkTank"] = value.thinkTank;
+                doc["trainingDemocrats"] = value.trainingDemocrats;
+                doc["applyPartyMembership"] = value.applyPartyMembership;
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();

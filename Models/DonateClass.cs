@@ -16,7 +16,8 @@ namespace thai_kao_mai_api.Models
             phone = "";
             cardID = "";
             donateType = "";
-
+            taxIdNumber = "";
+            paymentType = "1";
         }
 
 		public string slip { get; set; }
@@ -29,6 +30,7 @@ namespace thai_kao_mai_api.Models
         public string phone { get; set; }
         public string cardID { get; set; }
         public string donateType { get; set; }
+        public string taxIdNumber { get; set; }
     }
 }
 
