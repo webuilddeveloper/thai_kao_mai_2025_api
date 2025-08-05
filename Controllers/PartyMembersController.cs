@@ -52,6 +52,7 @@ namespace cms_api.Controllers
                     { "religion", value.religion},
                     { "age", value.age},
                     { "provinceBirthCode", value.provinceBirthCode},
+                    { "provinceBirth", value.provinceBirth},
                     { "nationality", value.nationality},
                     { "issueDate", value.issueDate},
                     { "expiryDate", value.expiryDate},
@@ -60,6 +61,7 @@ namespace cms_api.Controllers
                     { "districtIssueCode", value.districtIssueCode},
                     { "districtIssue", value.districtIssue},
                     { "highestLevelEducation", value.highestLevelEducation},
+                    { "faculty_major", value.faculty_major},
                     { "institute", value.institute},
                     { "currentOccupation", value.currentOccupation},
                     { "position", value.position},
@@ -147,6 +149,7 @@ namespace cms_api.Controllers
                     c.districtIssueCode,
                     c.districtIssue,
                     c.highestLevelEducation,
+                    c.faculty_major,
                     c.institute,
                     c.currentOccupation,
                     c.position,
@@ -240,6 +243,7 @@ namespace cms_api.Controllers
                 doc["districtIssueCode"] = value.districtIssueCode;
                 doc["districtIssue"] = value.districtIssue;
                 doc["highestLevelEducation"] = value.highestLevelEducation;
+                doc["faculty_major"] = value.faculty_major;
                 doc["institute"] = value.institute;
                 doc["currentOccupation"] = value.currentOccupation;
                 doc["position"] = value.position;

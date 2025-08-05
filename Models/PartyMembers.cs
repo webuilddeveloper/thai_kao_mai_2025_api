@@ -30,6 +30,7 @@ namespace cms_api.Models
             districtIssueCode = "";
             districtIssue = "";
             highestLevelEducation = "";
+            faculty_major = "";
             institute = "";
             currentOccupation = "";
             position = "";
@@ -80,6 +81,7 @@ namespace cms_api.Models
         public string districtIssueCode { get; set; }
         public string districtIssue { get; set; }
         public string highestLevelEducation { get; set; }
+        public string faculty_major { get; set; }
         public string institute { get; set; }
         public string currentOccupation { get; set; }
         public string position { get; set; }
