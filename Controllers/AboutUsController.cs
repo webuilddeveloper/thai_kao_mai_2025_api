@@ -58,8 +58,8 @@ namespace cms_api.Controllers
                     { "visionEN", value.visionEN },
                     { "mission", value.mission },
                     { "missionEN", value.missionEN },
-                    { "ideologyDes", value.mission },
-                    { "ideologyDesEN", value.missionEN },
+                    { "ideologyDes", value.ideologyDes },
+                    { "ideologyDesEN", value.ideologyDesEN },
                     { "ideologyList", new BsonArray(
                         value.ideologyList?.Select((m, index) => new BsonDocument
                         {
@@ -70,6 +70,7 @@ namespace cms_api.Controllers
                             { "descriptionEN", m.descriptionEN },
                         }))
                     },
+                    { "membershipApplication", value.membershipApplication },
                     { "youtube", value.youtube},
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
@@ -103,7 +104,7 @@ namespace cms_api.Controllers
                 //if (!string.IsNullOrEmpty(value.code)) { filter = filter & Builders<AboutUs>.Filter.Eq("code", value.code); }
                 if (!string.IsNullOrEmpty(codeCenter)) { filter = filter & Builders<AboutUs>.Filter.Eq("center", codeCenter); }
                 else { filter = filter & Builders<AboutUs>.Filter.Eq("center", ""); }
-                var docs = col.Find(filter).Project(c => new { c.code, c.isActive, c.title,c.titleEN, c.imageLogoUrl, c.imageBgUrl, c.description, c.descriptionEN, c.vision, c.visionEN, c.mission, c.missionEN, c.latitude, c.email, c.site, c.longitude, c.address,c.addressEN, c.facebook, c.youtube, c.telephone, c.createBy, c.createDate, c.updateBy, c.updateDate, c.lineOfficial, c.ideologyDes, c.ideologyDesEN, ideologyList = (c.ideologyList ?? Enumerable.Empty<Ideology>()).Select(x => new {sequence = x.sequence, title = x.title, titleEN = x.titleEN, description = x.description, descriptionEN = x.descriptionEN } ) }).ToList();
+                var docs = col.Find(filter).Project(c => new { c.code, c.isActive, c.title,c.titleEN, c.imageLogoUrl, c.imageBgUrl, c.description, c.descriptionEN, c.vision, c.visionEN, c.mission, c.missionEN, c.latitude, c.email, c.site, c.longitude, c.address,c.addressEN, c.facebook, c.youtube, c.telephone, c.createBy, c.createDate, c.updateBy, c.updateDate, c.lineOfficial, c.ideologyDes, c.ideologyDesEN, c.membershipApplication, ideologyList = (c.ideologyList ?? Enumerable.Empty<Ideology>()).Select(x => new {sequence = x.sequence, title = x.title, titleEN = x.titleEN, description = x.description, descriptionEN = x.descriptionEN } ) }).ToList();
                 return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs };
             }
             catch (Exception ex)
@@ -159,7 +160,7 @@ namespace cms_api.Controllers
                             { "description", m.description },
                             { "descriptionEN", m.descriptionEN },
                         }));
-
+                    doc["membershipApplication"] = value.membershipApplication ?? "";
                     doc["updateDate"] = DateTime.Now.toStringFromDate();
                     doc["updateTime"] = DateTime.Now.toTimeStringFromDate();
                     doc["center"] = colRegister.Find(o => o.username == value.updateBy).FirstOrDefault().center ?? "";
@@ -197,6 +198,7 @@ namespace cms_api.Controllers
                                 { "descriptionEN", m.descriptionEN },
                             }))
                         },
+                        { "membershipApplication", value.membershipApplication  ?? ""},
                         { "youtube", value.youtube  ?? ""},
                         { "createDate", DateTime.Now.toStringFromDate() },
                         { "docDate", DateTime.Now },

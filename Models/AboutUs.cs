@@ -46,6 +46,7 @@ namespace cms_api.Models
         public string missionEN { get; set; }
         public string ideologyDes { get; set; }
         public string ideologyDesEN { get; set; }
+        public string membershipApplication { get; set; }
         public List<Ideology> ideologyList { get; set; }
 
        
