@@ -56,6 +56,7 @@ namespace mobile_api.Controllers
                     c.lineOfficial,
                     c.ideologyDes,
                     c.ideologyDesEN,
+                    c.membershipApplication,
                     ideologyList = (c.ideologyList ?? Enumerable.Empty<Ideology>()).Select(x => new
                     {
                         sequence = x.sequence,
