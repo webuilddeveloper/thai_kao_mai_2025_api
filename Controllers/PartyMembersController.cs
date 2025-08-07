@@ -379,5 +379,23 @@ namespace cms_api.Controllers
 
         #endregion
 
+        [HttpGet("memberCount")]
+        public ActionResult<Response> memberCount()
+        {
+            try
+            {
+                var col = new Database().MongoClient<PartyMembers>("partyMembers");
+                var filter = Builders<PartyMembers>.Filter.Eq("status", "A");
+
+                var docs = col.CountDocuments(filter);
+
+                return new Response { status = "S", message = "success", objectData = docs };
+            }
+            catch (Exception ex)
+            {
+                return new Response { status = "E", message = ex.Message };
+            }
+        }
+
     }
 }
