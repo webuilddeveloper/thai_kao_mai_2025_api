@@ -57,6 +57,9 @@ namespace cms_api.Models
             postnoCode = "";
 
             partyOfficials = "";
+            registerType = "";
+            lineID = "";
+            slipPay = "";
 
         }
 
@@ -110,5 +113,8 @@ namespace cms_api.Models
         public string postnoCode { get; set; }
 
         public string partyOfficials { get; set; }
+        public string registerType { get; set; }
+        public string lineID { get; set; }
+        public string slipPay { get; set; }
     }
 }

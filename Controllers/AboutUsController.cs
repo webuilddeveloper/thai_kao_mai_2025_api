@@ -53,6 +53,7 @@ namespace cms_api.Controllers
                     { "email", value.email},
                     { "site", value.site},
                     { "facebook", value.facebook},
+                    { "ig", value.ig},
                     { "lineOfficial", value.lineOfficial},
                     { "vision", value.vision },
                     { "visionEN", value.visionEN },
@@ -104,7 +105,7 @@ namespace cms_api.Controllers
                 //if (!string.IsNullOrEmpty(value.code)) { filter = filter & Builders<AboutUs>.Filter.Eq("code", value.code); }
                 if (!string.IsNullOrEmpty(codeCenter)) { filter = filter & Builders<AboutUs>.Filter.Eq("center", codeCenter); }
                 else { filter = filter & Builders<AboutUs>.Filter.Eq("center", ""); }
-                var docs = col.Find(filter).Project(c => new { c.code, c.isActive, c.title,c.titleEN, c.imageLogoUrl, c.imageBgUrl, c.description, c.descriptionEN, c.vision, c.visionEN, c.mission, c.missionEN, c.latitude, c.email, c.site, c.longitude, c.address,c.addressEN, c.facebook, c.youtube, c.telephone, c.createBy, c.createDate, c.updateBy, c.updateDate, c.lineOfficial, c.ideologyDes, c.ideologyDesEN, c.membershipApplication, ideologyList = (c.ideologyList ?? Enumerable.Empty<Ideology>()).Select(x => new {sequence = x.sequence, title = x.title, titleEN = x.titleEN, description = x.description, descriptionEN = x.descriptionEN } ) }).ToList();
+                var docs = col.Find(filter).Project(c => new { c.code, c.isActive, c.title,c.titleEN, c.imageLogoUrl, c.imageBgUrl, c.description, c.descriptionEN, c.vision, c.visionEN, c.mission, c.missionEN, c.latitude, c.email, c.site, c.longitude, c.address,c.addressEN, c.facebook, c.ig, c.youtube, c.telephone, c.createBy, c.createDate, c.updateBy, c.updateDate, c.lineOfficial, c.ideologyDes, c.ideologyDesEN, c.membershipApplication, ideologyList = (c.ideologyList ?? Enumerable.Empty<Ideology>()).Select(x => new {sequence = x.sequence, title = x.title, titleEN = x.titleEN, description = x.description, descriptionEN = x.descriptionEN } ) }).ToList();
                 return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs };
             }
             catch (Exception ex)
@@ -141,6 +142,7 @@ namespace cms_api.Controllers
                     doc["telephone"] = value.telephone ?? "";
                     doc["email"] = value.email ?? "";
                     doc["facebook"] = value.facebook ?? "";
+                    doc["ig"] = value.ig ?? "";
                     doc["lineOfficial"] = value.lineOfficial ?? "";
                     doc["youtube"] = value.youtube ?? "";
                     doc["site"] = value.site ?? "";
@@ -183,6 +185,7 @@ namespace cms_api.Controllers
                         { "email", value.email  ?? ""},
                         { "site", value.site  ?? ""},
                         { "facebook", value.facebook  ?? ""},
+                        { "ig", value.ig  ?? ""},
                         { "lineOfficial", value.lineOfficial  ?? ""},
                         { "vision", value.vision  ?? ""},
                         { "visionEN", value.visionEN  ?? ""},

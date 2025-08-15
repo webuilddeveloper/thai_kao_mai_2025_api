@@ -16,6 +16,7 @@ namespace cms_api.Models
             site = "";
             youtube = "";
             facebook = "";
+            ig = "";
             latitude = "";
             longitude = "";
             lineOfficial = "";
@@ -37,6 +38,7 @@ namespace cms_api.Models
         public string site { get; set; }
         public string youtube { get; set; }
         public string facebook { get; set; }
+        public string ig { get; set; }
         public string latitude { get; set; }
         public string longitude { get; set; }
         public string lineOfficial { get; set; }
