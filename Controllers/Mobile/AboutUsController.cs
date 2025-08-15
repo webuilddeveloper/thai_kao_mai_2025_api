@@ -47,6 +47,7 @@ namespace mobile_api.Controllers
                     c.address,
                     c.addressEN,
                     c.facebook,
+                    c.ig,
                     c.youtube,
                     c.telephone,
                     c.createBy,

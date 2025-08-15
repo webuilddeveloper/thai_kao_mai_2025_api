@@ -89,6 +89,10 @@ namespace cms_api.Controllers
                     { "tambon", value.tambon },
                     { "postnoCode", value.postnoCode },
 
+                    { "registerType", value.registerType },
+                    { "lineID", value.lineID },
+                    { "slipPay", value.slipPay },
+
                     { "createBy", value.updateBy },
                     { "createDate", DateTime.Now.toStringFromDate() },
                     { "createTime", DateTime.Now.toTimeStringFromDate() },
@@ -178,6 +182,10 @@ namespace cms_api.Controllers
                     c.tambon,
                     c.postnoCode,
 
+                    c.registerType,
+                    c.lineID,
+                    c.slipPay,
+                    
                     c.createBy,
                     c.createDate,
                     c.createTime,
@@ -260,6 +268,9 @@ namespace cms_api.Controllers
                 doc["nameChangeCertificate"] = value.nameChangeCertificate;
                 doc["onFilePhoto1_5"] = value.onFilePhoto1_5;
                 if (!string.IsNullOrEmpty(value.partyOfficials)) { doc["partyOfficials"] = value.partyOfficials; }
+                if (!string.IsNullOrEmpty(value.registerType)) { doc["registerType"] = value.registerType; }
+                if (!string.IsNullOrEmpty(value.lineID)) { doc["lineID"] = value.lineID; }
+                if (!string.IsNullOrEmpty(value.slipPay)) { doc["slipPay"] = value.slipPay; }
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();
