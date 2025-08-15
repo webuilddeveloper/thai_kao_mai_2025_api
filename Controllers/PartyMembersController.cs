@@ -38,6 +38,12 @@ namespace cms_api.Controllers
                     return new Response { status = "E", message = $"code: {value.code} is exist", jsonData = value.ToJson(), objectData = value };
                 }
 
+                var filterIDCard = Builders<BsonDocument>.Filter.Eq("idcard", value.idcard);
+                if (col.Find(filterIDCard).Any())
+                {
+                    return new Response { status = "N", message = "เลขบัตรปนะชาชนนี้มีอยู่ในระบบแล้ว" };
+                }
+
                 doc = new BsonDocument
                 {
                     { "code", value.code },
