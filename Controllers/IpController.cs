@@ -273,38 +273,15 @@ namespace cms_api.Controllers
                 DateTime now = DateTime.Now;
 
                 var yearStart = new DateTime(now.Year, 1, 1);
-                var yearEnd = new DateTime(now.Year, 12, 1);
+                var yearEnd = new DateTime(now.Year, 12, 31, 23, 59, 59);
+
                 var monthStart = new DateTime(now.Year, now.Month, 1);
                 var monthEnd = monthStart.AddMonths(1).AddDays(-1);
-                var weekago2 = now.AddDays(-6);
-                var weekago = now.Day;
-                int[] week1 = { 1, 2, 3, 4, 5, 6, 7 };
-                int[] week2 = { 8, 9, 10, 11, 12, 13, 14 };
-                int[] week3 = { 15, 16, 17, 18, 19, 20, 21 };
 
-
-                var strat = new DateTime(now.Year, now.Month, 22);
-                var end = monthStart.AddMonths(1).AddDays(-1);
-                //var countWeek = "0";
-                if (week1.Any(c => c == weekago))
-                {
-                    strat = new DateTime(now.Year, now.Month, 1);
-                    end = new DateTime(now.Year, now.Month, 7);
-                    //countWeek = docs.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= strat && c.docDate <= end).ToList().Count().ToString("#,###");
-                }
-                if (week2.Any(c => c == weekago))
-                {
-                    strat = new DateTime(now.Year, now.Month, 8);
-                    end = new DateTime(now.Year, now.Month, 14);
-                    //countWeek = docs.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= strat && c.docDate <= end).ToList().Count().ToString("#,###");
-                }
-                if (week3.Any(c => c == weekago))
-                {
-                    strat = new DateTime(now.Year, now.Month, 15);
-                    end = new DateTime(now.Year, now.Month, 21);
-                    //countWeek = docs.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= strat && c.docDate <= end).ToList().Count().ToString("#,###");
-                }
-
+                DayOfWeek firstDayOfWeek = DayOfWeek.Sunday;
+                var startOfWeek = now.Date.AddDays(-(int)now.DayOfWeek + (int)firstDayOfWeek);
+                var endOfWeek = startOfWeek.AddDays(6).AddHours(23).AddMinutes(59).AddSeconds(59); // รวมทั้งวันสุดท้ายของสัปดาห์
+              
                 var filter = Builders<User>.Filter.Where(x => x.page.ToUpper() == "HOME");
                 var result = new
                 {
@@ -316,13 +293,18 @@ namespace cms_api.Controllers
                     //countWeek = docs.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= weekago && c.docDate <= now).ToList().Count().ToString("#,###"),
                     //countDay = docs.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= now.Date && c.docDate <= now).ToList().Count().ToString("#,###"),
 
-                    countNU = col.CountDocuments(filter & Builders<User>.Filter.Eq("username", "")),
-                    countU = col.CountDocuments(filter & Builders<User>.Filter.Ne("username", "")),
+                    //countNU = col.CountDocuments(filter & Builders<User>.Filter.Eq("username", "")),
+                    //countU = col.CountDocuments(filter & Builders<User>.Filter.Ne("username", "")),
+                    countAll = col.CountDocuments(filter & Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME")),
                     countYear = col.CountDocuments(filter & Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= yearStart && c.docDate <= yearEnd)),
                     countMonth = col.CountDocuments(filter & Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= monthStart && c.docDate <= monthEnd)),
-                    countWeek = col.CountDocuments(filter & Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= strat && c.docDate <= end)),
+                    countWeek = col.CountDocuments(filter & Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= startOfWeek && c.docDate <= endOfWeek)),
                     countDay = col.CountDocuments(filter & Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= now.Date && c.docDate <= now)),
 
+                    countYearPerson = col.Aggregate().Match(Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= yearStart && c.docDate <= yearEnd)).Group(x => x.ipAddress, g => new { Ip = g.Key }).Count().FirstOrDefault(),
+                    countMonthPerson = col.Aggregate().Match(Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= monthStart && c.docDate <= monthEnd)).Group(x => x.ipAddress, g => new { Ip = g.Key }).Count().FirstOrDefault(),
+                    countWeekPerson = col.Aggregate().Match(Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= startOfWeek && c.docDate <= endOfWeek)).Group(x => x.ipAddress, g => new { Ip = g.Key }).Count().FirstOrDefault(),
+                    countDayPerson = col.Aggregate().Match(Builders<User>.Filter.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= now.Date && c.docDate <= now)).Group(x => x.ipAddress, g => new { Ip = g.Key }).Count().FirstOrDefault(),
                     // จำนวนคน
                     //countYear = docs.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= yearStart && c.docDate <= yearEnd).GroupBy(g => new { g.ipAddress, g.docDate.Date }).ToList().Count().ToString("#,###"),
                     //countMonth = docs.Where(c => c.page.ToUpper() == "HOME" && c.docDate >= monthStart && c.docDate <= monthEnd).GroupBy(g => new { g.ipAddress, g.docDate.Date }).ToList().Count().ToString("#,###"),
