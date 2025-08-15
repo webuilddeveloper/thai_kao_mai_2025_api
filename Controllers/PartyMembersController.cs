@@ -102,6 +102,8 @@ namespace cms_api.Controllers
                 };
                 col.InsertOne(doc);
 
+                new SendMailService($"https://gateway.we-builds.com/thai-kao-mai-api/partyMembers/updateVerify?code={value.code}&email={value.email}", "ยืนยันตัวตน", value.email,$"{value.title} {value.firstName} {value.lastName}");
+
                 return new Response { status = "S", message = "success", jsonData = doc.ToJson(), objectData = BsonSerializer.Deserialize<object>(doc) };
             }
             catch (Exception ex)
@@ -383,7 +385,7 @@ namespace cms_api.Controllers
         public ActionResult<Response> memberCount()
         {
             try
-            {
+            {new SendMailService("ยืนยันตัวตนอีกครั้ง", "ยืนยันตัวตน", "");
                 var col = new Database().MongoClient<PartyMembers>("partyMembers");
                 var filter = Builders<PartyMembers>.Filter.Eq("status", "A");
 
@@ -397,5 +399,44 @@ namespace cms_api.Controllers
             }
         }
 
+        [HttpGet("testEmail")]
+        public ActionResult<Response> testEmail()
+        {
+            try
+            {
+                new SendMailService("https://www.google.com/", "คุณได้สมัครเป็นสมาชิกพรรคไทยก้าวใหม่ กรุณากดปุ่มด้านล่างเพื่อยืนยันการสมัคร", "");
+
+                return new Response { status = "S", message = "success" };
+            }
+            catch (Exception ex)
+            {
+                return new Response { status = "E", message = ex.Message };
+            }
+        }
+
+        [HttpGet("updateVerify")]
+        public ActionResult<Response> updateVerify([FromQuery] string code, [FromQuery] string email)
+        {
+            var doc = new BsonDocument();
+            try
+            {
+
+                var col = new Database().MongoClient<BsonDocument>("partyMembers");
+                var filter = (Builders<BsonDocument>.Filter.Eq("code", code) & Builders<BsonDocument>.Filter.Eq("email", email));
+
+                doc = col.Find(filter).FirstOrDefault();
+                var model = BsonSerializer.Deserialize<object>(doc);
+
+                doc["isVerify"] = true;
+
+                col.ReplaceOne(filter, doc);
+
+                return new Response { status = "S", message = "success" };
+            }
+            catch (Exception ex)
+            {
+                return new Response { status = "E", message = ex.Message };
+            }
+        }
     }
 }
