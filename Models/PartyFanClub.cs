@@ -13,7 +13,7 @@ namespace cms_api.Models
             phone = "";
             email = "";
             other = "";
-
+            lineId = "";
         }
 
         public string idcard { get; set; }
@@ -23,6 +23,7 @@ namespace cms_api.Models
         public string birthDay { get; set; }
         public string phone { get; set; }
         public string email { get; set; }
+        public string lineId { get; set; }
 
         public bool brainBank { get; set; }
         public bool applySenator { get; set; }

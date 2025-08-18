@@ -36,6 +36,12 @@ namespace cms_api.Controllers
                     return new Response { status = "E", message = $"code: {value.code} is exist", jsonData = value.ToJson(), objectData = value };
                 }
 
+                var filterIDCard = Builders<BsonDocument>.Filter.Eq("phone", value.idcard) & Builders<BsonDocument>.Filter.Ne("status", "D");
+                if (col.Find(filterIDCard).Any())
+                {
+                    return new Response { status = "N", message = "เบอร์โทรศัพท์นี้มีอยู่ในระบบแล้ว" };
+                }
+
                 doc = new BsonDocument
                 {
                     { "code", value.code },
@@ -45,8 +51,9 @@ namespace cms_api.Controllers
                     { "firstName", value.firstName },
                     { "lastName", value.lastName },
                     //{ "birthDay", value.birthDay },
-                    //{ "phone", value.phone },
+                    { "phone", value.phone },
                     { "email", value.email},
+                    { "lineId", value.lineId},
 
                     { "brainBank", value.brainBank},
                     { "applySenator", value.applySenator},
@@ -105,8 +112,9 @@ namespace cms_api.Controllers
                     c.firstName,
                     c.lastName,
                     //c.birthDay,
-                    //c.phone,
+                    c.phone,
                     c.email,
+                    c.lineId,
 
                     c.brainBank,
                     c.applySenator,
@@ -155,8 +163,9 @@ namespace cms_api.Controllers
                 if (!string.IsNullOrEmpty(value.firstName)) { doc["firstName"] = value.firstName; }
                 if (!string.IsNullOrEmpty(value.lastName)) { doc["lastName"] = value.lastName; }
                 //if (!string.IsNullOrEmpty(value.birthDay)) { doc["birthDay"] = value.birthDay; }
-                //if (!string.IsNullOrEmpty(value.phone)) { doc["phone"] = value.phone; }
+                if (!string.IsNullOrEmpty(value.phone)) { doc["phone"] = value.phone; }
                 if (!string.IsNullOrEmpty(value.email)) { doc["email"] = value.email; }
+                if (!string.IsNullOrEmpty(value.lineId)) { doc["lineId"] = value.lineId; }
 
                 doc["brainBank"] = value.brainBank;
                 doc["applySenator"] = value.applySenator;
