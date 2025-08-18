@@ -82,6 +82,7 @@ namespace cms_api.Controllers
                     { "copyHouseRegistration", value.copyHouseRegistration},
                     { "nameChangeCertificate", value.nameChangeCertificate},
                     { "onFilePhoto1_5", value.onFilePhoto1_5},
+                    { "photoSelfie", value.photoSelfie},
 
                     { "address", value.address },
                     { "moo", value.moo },
@@ -177,6 +178,7 @@ namespace cms_api.Controllers
                     c.nameChangeCertificate,
                     c.onFilePhoto1_5,
                     c.partyOfficials,
+                    c.photoSelfie,
 
                     c.address,
                     c.moo,
@@ -279,6 +281,7 @@ namespace cms_api.Controllers
                 if (!string.IsNullOrEmpty(value.registerType)) { doc["registerType"] = value.registerType; }
                 if (!string.IsNullOrEmpty(value.lineID)) { doc["lineID"] = value.lineID; }
                 if (!string.IsNullOrEmpty(value.slipPay)) { doc["slipPay"] = value.slipPay; }
+                if (!string.IsNullOrEmpty(value.photoSelfie)) { doc["photoSelfie"] = value.photoSelfie; }
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();

@@ -43,6 +43,7 @@ namespace cms_api.Models
             copyHouseRegistration = "";
             nameChangeCertificate = "";
             onFilePhoto1_5 = "";
+            photoSelfie = "";
 
             address = "";
             moo = "";
@@ -99,6 +100,7 @@ namespace cms_api.Models
         public string copyHouseRegistration { get; set; }
         public string nameChangeCertificate { get; set; }
         public string onFilePhoto1_5 { get; set; }
+        public string photoSelfie { get; set; }
 
         public string address { get; set; }
         public string moo { get; set; }
