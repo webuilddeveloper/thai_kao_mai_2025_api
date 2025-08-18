@@ -31,6 +31,7 @@ namespace cms_api.Models
         public bool applyMpPartylist { get; set; }
         public bool volunteerField { get; set; }
         public bool joinWorkshop { get; set; }
+        public bool isOther { get; set; }
         public string other { get; set; }
 
     }

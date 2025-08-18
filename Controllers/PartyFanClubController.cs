@@ -61,6 +61,7 @@ namespace cms_api.Controllers
                     { "applyMpPartylist", value.applyMpPartylist},
                     { "volunteerField", value.volunteerField},
                     { "joinWorkshop", value.joinWorkshop},
+                    { "isOther", value.isOther},
                     { "other", value.other},
 
 
@@ -122,6 +123,7 @@ namespace cms_api.Controllers
                     c.applyMpPartylist,
                     c.volunteerField,
                     c.joinWorkshop,
+                    c.isOther,
                     c.other,
 
 
@@ -173,6 +175,7 @@ namespace cms_api.Controllers
                 doc["applyMpPartylist"] = value.applyMpPartylist;
                 doc["volunteerField"] = value.volunteerField;
                 doc["joinWorkshop"] = value.joinWorkshop;
+                doc["isOther"] = value.isOther;
                 doc["other"] = value.other;
 
                 doc["updateBy"] = value.updateBy;
