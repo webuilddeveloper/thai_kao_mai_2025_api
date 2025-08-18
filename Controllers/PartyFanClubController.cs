@@ -48,10 +48,13 @@ namespace cms_api.Controllers
                     //{ "phone", value.phone },
                     { "email", value.email},
 
-                    { "volunteerWorkArea", value.volunteerWorkArea},
-                    { "thinkTank", value.thinkTank},
-                    { "trainingDemocrats", value.trainingDemocrats},
-                    { "applyPartyMembership", value.applyPartyMembership},
+                    { "brainBank", value.brainBank},
+                    { "applySenator", value.applySenator},
+                    { "applyMpConstituency", value.applyMpConstituency},
+                    { "applyMpPartylist", value.applyMpPartylist},
+                    { "volunteerField", value.volunteerField},
+                    { "joinWorkshop", value.joinWorkshop},
+                    { "other", value.other},
 
 
 
@@ -105,10 +108,13 @@ namespace cms_api.Controllers
                     //c.phone,
                     c.email,
 
-                    c.volunteerWorkArea,
-                    c.thinkTank,
-                    c.trainingDemocrats,
-                    c.applyPartyMembership,
+                    c.brainBank,
+                    c.applySenator,
+                    c.applyMpConstituency,
+                    c.applyMpPartylist,
+                    c.volunteerField,
+                    c.joinWorkshop,
+                    c.other,
 
 
                     c.createBy,
@@ -152,10 +158,13 @@ namespace cms_api.Controllers
                 //if (!string.IsNullOrEmpty(value.phone)) { doc["phone"] = value.phone; }
                 if (!string.IsNullOrEmpty(value.email)) { doc["email"] = value.email; }
 
-                doc["volunteerWorkArea"] = value.volunteerWorkArea;
-                doc["thinkTank"] = value.thinkTank;
-                doc["trainingDemocrats"] = value.trainingDemocrats;
-                doc["applyPartyMembership"] = value.applyPartyMembership;
+                doc["brainBank"] = value.brainBank;
+                doc["applySenator"] = value.applySenator;
+                doc["applyMpConstituency"] = value.applyMpConstituency;
+                doc["applyMpPartylist"] = value.applyMpPartylist;
+                doc["volunteerField"] = value.volunteerField;
+                doc["joinWorkshop"] = value.joinWorkshop;
+                doc["other"] = value.other;
 
                 doc["updateBy"] = value.updateBy;
                 doc["updateDate"] = DateTime.Now.toStringFromDate();

@@ -12,7 +12,7 @@ namespace cms_api.Models
             birthDay = "";
             phone = "";
             email = "";
-      
+            other = "";
 
         }
 
@@ -24,10 +24,13 @@ namespace cms_api.Models
         public string phone { get; set; }
         public string email { get; set; }
 
-        public bool volunteerWorkArea { get; set; }
-        public bool thinkTank { get; set; }
-        public bool trainingDemocrats { get; set; }
-        public bool applyPartyMembership { get; set; }
+        public bool brainBank { get; set; }
+        public bool applySenator { get; set; }
+        public bool applyMpConstituency { get; set; }
+        public bool applyMpPartylist { get; set; }
+        public bool volunteerField { get; set; }
+        public bool joinWorkshop { get; set; }
+        public string other { get; set; }
 
     }
 }
