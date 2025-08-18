@@ -36,7 +36,7 @@ namespace cms_api.Controllers
                     return new Response { status = "E", message = $"code: {value.code} is exist", jsonData = value.ToJson(), objectData = value };
                 }
 
-                var filterIDCard = Builders<BsonDocument>.Filter.Eq("phone", value.idcard) & Builders<BsonDocument>.Filter.Ne("status", "D");
+                var filterIDCard = Builders<BsonDocument>.Filter.Eq("phone", value.phone) & Builders<BsonDocument>.Filter.Ne("status", "D");
                 if (col.Find(filterIDCard).Any())
                 {
                     return new Response { status = "N", message = "เบอร์โทรศัพท์นี้มีอยู่ในระบบแล้ว" };
