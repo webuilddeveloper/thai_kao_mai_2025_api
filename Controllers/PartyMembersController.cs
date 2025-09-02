@@ -515,7 +515,8 @@ namespace cms_api.Controllers
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             // 2. เรียก API แบบ POST
-            var response = await httpClient.PostAsync("https://gateway.we-builds.com/report-wb-api/api/report/getReportTKM", content);
+            //var response = await httpClient.PostAsync("https://gateway.we-builds.com/report-wb-api/api/report/getReportTKM", content);
+            var response = await httpClient.PostAsync("http://localhost:8080/wb-api/api/report/getReportTKM", content);
             response.EnsureSuccessStatusCode();
 
             // 3. รับ PDF เป็น byte[]
