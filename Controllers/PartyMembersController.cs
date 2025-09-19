@@ -1,8 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using cms_api.Extension;
 using cms_api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -114,7 +120,15 @@ namespace cms_api.Controllers
                 };
                 col.InsertOne(doc);
 
-                new SendMailService($"https://gateway.we-builds.com/thai-kao-mai-api/partyMembers/updateVerify?code={value.code}&email={value.email}", "ยืนยันตัวตน", value.email,$"{value.title} {value.firstName} {value.lastName}");
+                Task.Run(async () =>
+                {
+                    var pdfBytes = await getReportAsync(value);
+                    new SendMailService($"https://gateway.we-builds.com/thai-kao-mai-api/partyMembers/updateVerify?code={value.code}&email={value.email}"
+                        , "ยืนยันตัวตน"
+                        , value.email
+                        , $"{value.title} {value.firstName} {value.lastName}"
+                        , pdfBytes);
+                });
 
                 return new Response { status = "S", message = "success", jsonData = doc.ToJson(), objectData = BsonSerializer.Deserialize<object>(doc) };
             }
@@ -406,7 +420,8 @@ namespace cms_api.Controllers
         public ActionResult<Response> memberCount()
         {
             try
-            {new SendMailService("ยืนยันตัวตนอีกครั้ง", "ยืนยันตัวตน", "");
+            {
+                //new SendMailService("ยืนยันตัวตนอีกครั้ง", "ยืนยันตัวตน", "");
                 var col = new Database().MongoClient<PartyMembers>("partyMembers");
                 var filter = Builders<PartyMembers>.Filter.Eq("status", "A");
 
@@ -458,6 +473,56 @@ namespace cms_api.Controllers
             {
                 return new Response { status = "E", message = ex.Message };
             }
+        }
+
+        private async Task<byte[]> getReportAsync(PartyMembers data)
+        {
+            var date = DateTime.Now;
+            var thaiCulture = new CultureInfo("th-TH");
+            // 1. เตรียม object ที่จะส่งเข้า API
+            var requestObject = new
+            {
+                day = date.ToString("dd", thaiCulture),
+                month = date.ToString("MMMM", thaiCulture),
+                year = (date.Year + 543).ToString(),
+                fullName = $"{data.firstName} {data.lastName}",
+                address = data.address,
+                soi = data.soi,
+                road = data.road,
+                moo = data.moo,
+                tambon = data.tambon,
+                amphoe = data.amphoe,
+                province = data.province,
+                postnoCode = data.postnoCode,
+                isYearly = data.registerType == "yearly" ? true : false,
+                isLifetime = data.registerType == "lifetime" ? true : false,
+                cash = data.registerType == "yearly" ? "20" : "200",
+                cashDate = "01/09/2567",
+                no = "",
+                number = "",
+                idcard = data.idcard,
+                money = data.registerType == "yearly" ? "20" : "200",
+                moneyth = data.registerType == "yearly" ? "ยี่สิบบาทถ้วน" : "สองร้อยบาทถ้วน",
+            };
+
+        var httpClient = new HttpClient();
+
+            // ถ้าต้องใช้ Authorization
+            // httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "your_token");
+
+            // แปลง object เป็น JSON string
+            string jsonContent = JsonSerializer.Serialize(requestObject);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            // 2. เรียก API แบบ POST
+            //var response = await httpClient.PostAsync("https://gateway.we-builds.com/report-wb-api/api/report/getReportTKM", content);
+            var response = await httpClient.PostAsync("http://localhost:8080/wb-api/api/report/getReportTKM", content);
+            response.EnsureSuccessStatusCode();
+
+            // 3. รับ PDF เป็น byte[]
+            byte[] pdfBytes = await response.Content.ReadAsByteArrayAsync();
+            
+            return pdfBytes;
         }
     }
 }

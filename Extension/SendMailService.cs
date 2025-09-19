@@ -14,6 +14,12 @@ using MongoDB.Bson.Serialization;
 using cms_api.Models;
 using System.Net.Mail;
 using System.Net;
+using System.IO;
+using System.Net.Mime;
+using SharpCompress.Compressors.Xz;
+using OfficeOpenXml.Style;
+using System.Drawing;
+using System.Security.Policy;
 
 namespace cms_api.Extension
 {
@@ -21,13 +27,15 @@ namespace cms_api.Extension
     {
         //ใช้สำหรับ....
 
-        public SendMailService(string description, string subject, string emailUser,string fullName ="")
+        public SendMailService(string description, string subject, string emailUser,string fullName ="", byte[] pdfBytes = null)
         {
-            _ = this.SendMail(description, subject, emailUser, fullName);
+            _ = this.SendMail(description, subject, emailUser, fullName, pdfBytes);
         }
 
-        private Task SendMail(string description, string subject, string emailUser, string fullName = "")
+        private Task SendMail(string description, string subject, string emailUser, string fullName = "", byte[] pdfBytes = null)
         {
+            MemoryStream stream = null;
+            Attachment attachment = null;
             try
             {
                 var email = new List<string>();
@@ -49,8 +57,18 @@ namespace cms_api.Extension
                 client.EnableSsl = enableSsl;
                 client.Port = port;
 
+          
+
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress(emailHost, "พรรคไทยก้าวใหม่");
+
+                if (pdfBytes != null)
+                {
+                    stream = new MemoryStream(pdfBytes); 
+
+                    attachment = new Attachment(stream, "receipt.pdf", MediaTypeNames.Application.Pdf);
+                    mailMessage.Attachments.Add(attachment);
+                }
 
                 email.ForEach(c =>
                 {
@@ -61,23 +79,24 @@ namespace cms_api.Extension
                 //mailMessage.Body = "รหัสผ่านใหม่ของคุณคือ  " + value.newPassword;
                 //mailMessage.Body = description;
                 //mailMessage.Body = $"สวัสดีคุณ {FullName}\n\nขอบคุณที่สมัครสมาชิกพรรคไทยก้าวใหม่\nกรุณาคลิกลิงก์ด้านล่างเพื่อยืนยันตัวตนของคุณ:\n{description}\n\n*ลิงก์นี้จะหมดอายุใน 24 ชั่วโมง\nหากคุณไม่ได้ทำรายการนี้ สามารถละเว้นอีเมลฉบับนี้ได้\n\nขอแสดงความนับถือ\nทีมงานพรรคไทยก้าวใหม่";
-                mailMessage.Body = $@"
+        //        < p > กรุณาคลิกลิงก์ด้านล่างเพื่อยืนยันตัวตนของคุณ </ p >
+        //< a href = '" + description + @"'
+        //   style = '
+        //       display: inline - block;
+        //    padding: 10px 20px;
+        //        font - size: 16px;
+        //    color: white;
+        //        background - color: #28a745;
+        //       text - decoration: none;
+        //        border - radius: 5px;
+        //        '>ยืนยันการสมัคร</a>
+        //     < p > ลิงก์นี้จะหมดอายุใน 24 ชั่วโมง </ p >
+                     mailMessage.Body = $@"
 <html>
     <body>
         <p>สวัสดีคุณ {fullName}</p>
 <p>ขอบคุณที่สมัครสมาชิกพรรคไทยก้าวใหม่</p>
-<p>กรุณาคลิกลิงก์ด้านล่างเพื่อยืนยันตัวตนของคุณ</p>
-        <a href='" + description + @"' 
-           style='
-               display: inline-block;
-               padding: 10px 20px;
-               font-size: 16px;
-               color: white;
-               background-color: #28a745;
-               text-decoration: none;
-               border-radius: 5px;
-           '>ยืนยันการสมัคร</a>
-        <p>ลิงก์นี้จะหมดอายุใน 24 ชั่วโมง</p>
+
 <p>หากคุณไม่ได้ทำรายการนี้ สามารถละเว้นอีเมลฉบับนี้ได้</p>
 <p>ขอแสดงความนับถือ</p>
 <p>ทีมงานพรรคไทยก้าวใหม่</p>
@@ -91,11 +110,16 @@ namespace cms_api.Extension
                 //mailMessage.Subject = "ยืนยันการเปลี่ยนรหัสผ่าน";
                 mailMessage.Subject = subject;
                 client.Send(mailMessage);
-
             }
             catch (Exception ex)
             {
                 //return new Response { status = "E", message = ex.Message };
+            }
+            finally
+            {
+                // ✅ ปิดไฟล์หลังจากส่งเสร็จ
+                attachment?.Dispose();
+                stream?.Dispose();
             }
 
             return Task.CompletedTask;
