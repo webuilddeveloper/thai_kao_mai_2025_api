@@ -49,6 +49,8 @@ namespace mobile_api.Controllers
                     c.facebook,
                     c.ig,
                     c.youtube,
+                    c.tiktok,
+                    c.x,
                     c.telephone,
                     c.createBy,
                     c.createDate,
