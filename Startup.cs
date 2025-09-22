@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace cms_api
 {
@@ -98,6 +99,16 @@ namespace cms_api
         private static readonly int LIMIT = 10; // อนุญาต 10 requests
         private static readonly TimeSpan WINDOW = TimeSpan.FromSeconds(30); // ต่อ 30 วินาที
 
+        private static readonly HashSet<string> LimitedPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "/partymembers/create",
+            "/partyfanclub/create",
+            "/donate/create",
+            //"/route/province/read",
+            //"/route/district/read"
+        };
+
+
         public RateLimitingMiddleware(RequestDelegate next, IMemoryCache cache)
         {
             _next = next;
@@ -106,7 +117,31 @@ namespace cms_api
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            var path = context.Request.Path.Value?.TrimEnd('/').ToLower() ?? "";
+
+            // ✅ ตรวจสอบ path ก่อน
+            if (!LimitedPaths.Contains(path))
+            {
+                // ไม่ใช่ path ที่จำกัด → ข้ามไปเลย
+                await _next(context);
+                return;
+            }
+
+
+            // ✅ ดึง IP จาก X-Forwarded-For ถ้ามี
+            var ipAddress = context.Request.Headers["X-Forwarded-For"].ToString();
+
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                // header อาจมีหลายค่า (เช่น "client, proxy1, proxy2") → เอาอันแรก
+                ipAddress = ipAddress.Split(',')[0].Trim();
+            }
+            else
+            {
+                // ถ้าไม่มี X-Forwarded-For → ใช้ RemoteIpAddress
+                ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            }
+
             var cacheKey = $"RateLimit_{ipAddress}";
 
             var entry = _cache.GetOrCreate(cacheKey, entry =>
@@ -120,11 +155,12 @@ namespace cms_api
             });
 
             entry.Count++;
+            _cache.Set(cacheKey, entry, WINDOW);
 
             if (entry.Count > LIMIT)
             {
                 context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-                await context.Response.WriteAsync("Rate limit exceeded. กรุณาลองใหม่ภายหลัง");
+                await context.Response.WriteAsync($"Rate limit exceeded for IP {ipAddress}. กรุณาลองใหม่ภายหลัง");
                 return;
             }
 
