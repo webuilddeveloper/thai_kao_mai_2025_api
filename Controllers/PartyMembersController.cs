@@ -14,6 +14,7 @@ using cms_api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
@@ -170,7 +171,7 @@ namespace cms_api.Controllers
                     if (!string.IsNullOrEmpty(value.code)) { filter &= Builders<PartyMembers>.Filter.Eq("code", value.code); }
 
                 }
-                var docs = col.Find(filter).Project(c =>
+                var docs = col.Find(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).Skip(value.skip).Limit(value.limit).Project(c =>
                 new
                 {
                     c.code,
@@ -236,15 +237,14 @@ namespace cms_api.Controllers
                     c.docTime,
                     c.isActive,
                     c.status,
-                });
+                }).ToList();
 
                 var sv = new AES();
                 var encryptJson = "";
-                var jsonString = docs.ToString();
-                if (jsonString != "")
-                    encryptJson = sv.AesEncryptECB(docs.ToString(), "p3s6v8y/B?E(H+Mb");
+                if (docs.Count() > 0)
+                    encryptJson = sv.AesEncryptECB(JsonSerializer.Serialize(docs), "p3s6v8y/B?E(H+Mb");
 
-                return new Response { status = "S", message = "success", jsonData = encryptJson.ToJson(), objectData = encryptJson, totalData = col.Find(filter).ToList().Count() };
+                return new Response { status = "S", message = "success", jsonData = encryptJson, objectData = encryptJson, totalData = col.Find(filter).ToList().Count() };
             }
             catch (Exception ex)
             {
@@ -290,7 +290,7 @@ namespace cms_api.Controllers
                 var sv = new AES();
                 var encryptJson = "";
                 if (docs.Count() > 0)
-                    encryptJson = sv.AesEncryptECB(docs.ToJson(), "p3s6v8y/B?E(H+Mb");
+                    encryptJson = sv.AesEncryptECB(JsonSerializer.Serialize(docs), "p3s6v8y/B?E(H+Mb");
 
                 return new Response { status = "S", message = "success", jsonData = encryptJson, objectData = encryptJson, totalData = col.Find(filter).ToList().Count() };
             }
