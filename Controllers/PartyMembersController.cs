@@ -34,6 +34,21 @@ namespace cms_api.Controllers
 
             try
             {
+                var xKey = Request.Headers["dek-gen-z"].ToString();
+                if (xKey == "")
+                {
+                    return new Response { status = "N", message = "X-KEY ไม่ถูกต้อง" };
+                }
+                var sv = new AES();
+                var decryptPassword = "";
+                if (!string.IsNullOrEmpty(xKey))
+                    decryptPassword = sv.AesDecryptECB(xKey, "p3s6v8y/B?E(H+Mb");
+
+                if (decryptPassword != value.idcard)
+                {
+                    return new Response { status = "N", message = "X-KEY ไม่ถูกต้อง"};
+                }
+
                 var col = new Database().MongoClient("partyMembers");
 
                 //check duplicate
@@ -155,7 +170,7 @@ namespace cms_api.Controllers
                     if (!string.IsNullOrEmpty(value.code)) { filter &= Builders<PartyMembers>.Filter.Eq("code", value.code); }
 
                 }
-                var docs = col.Find(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).Skip(value.skip).Limit(value.limit).Project(c =>
+                var docs = col.Find(filter).Project(c =>
                 new
                 {
                     c.code,
@@ -221,15 +236,70 @@ namespace cms_api.Controllers
                     c.docTime,
                     c.isActive,
                     c.status,
-                }).ToList();
+                });
 
-                return new Response { status = "S", message = "success", jsonData = docs.ToJson(), objectData = docs, totalData = col.Find(filter).ToList().Count() };
+                var sv = new AES();
+                var encryptJson = "";
+                var jsonString = docs.ToString();
+                if (jsonString != "")
+                    encryptJson = sv.AesEncryptECB(docs.ToString(), "p3s6v8y/B?E(H+Mb");
+
+                return new Response { status = "S", message = "success", jsonData = encryptJson.ToJson(), objectData = encryptJson, totalData = col.Find(filter).ToList().Count() };
             }
             catch (Exception ex)
             {
                 return new Response { status = "E", message = ex.Message };
             }
         }
+
+        // POST /readList
+        [HttpPost("readList")]
+        public ActionResult<Response> ReadList([FromBody] Criteria value)
+        {
+            try
+            {
+                var col = new Database().MongoClient<PartyMembers>("partyMembers");
+                var filter = Builders<PartyMembers>.Filter.Ne("status", "D");
+                if (!string.IsNullOrEmpty(value.keySearch))
+                {
+                    filter = (filter & Builders<PartyMembers>.Filter.Regex("firstName", value.keySearch)) | (filter & Builders<PartyMembers>.Filter.Regex("lastName", value.keySearch));
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(value.code)) { filter &= Builders<PartyMembers>.Filter.Eq("code", value.code); }
+
+                }
+                var docs = col.Find(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).Skip(value.skip).Limit(value.limit).Project(c => 
+                new {
+                    c.code,
+                    c.firstName,
+                    c.lastName,
+                    c.onFilePhoto1_5,
+                    c.createBy,
+                    c.createDate,
+                    c.createTime,
+                    c.updateBy,
+                    c.updateDate,
+                    c.updateTime,
+                    c.docDate,
+                    c.docTime,
+                    c.isActive,
+                    c.status,
+                }).ToList();
+
+                var sv = new AES();
+                var encryptJson = "";
+                if (docs.Count() > 0)
+                    encryptJson = sv.AesEncryptECB(docs.ToJson(), "p3s6v8y/B?E(H+Mb");
+
+                return new Response { status = "S", message = "success", jsonData = encryptJson, objectData = encryptJson, totalData = col.Find(filter).ToList().Count() };
+            }
+            catch (Exception ex)
+            {
+                return new Response { status = "E", message = ex.Message };
+            }
+        }
+
 
         // POST /update
         [HttpPost("update")]
