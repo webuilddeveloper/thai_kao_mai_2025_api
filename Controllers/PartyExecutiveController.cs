@@ -94,7 +94,7 @@ namespace cms_api.Controllers
                 if (!string.IsNullOrEmpty(value.keySearch))
                 {
                     filter = (filter & Builders<PartyExecutive>.
-                        Filter.Regex("email", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i"))) | (filter & Builders<PartyExecutive>.Filter.Regex("description", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i")));
+                        Filter.Regex("title", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i"))) | (filter & Builders<PartyExecutive>.Filter.Regex("description", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i")));
 
                     if (value.permission != "all")
                         filter &= (value.permission.filterPermission<PartyExecutive>("category"));

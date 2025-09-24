@@ -125,7 +125,7 @@ namespace thai_kao_mai_api.Controllers
                 if (!string.IsNullOrEmpty(value.keySearch))
                 {
                     filter = (filter & Builders<Donate>.
-                        Filter.Regex("title", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i"))) | (filter & Builders<Donate>.Filter.Regex("description", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i")));
+                        Filter.Regex("firstName", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i"))) | (filter & Builders<Donate>.Filter.Regex("lastName", new BsonRegularExpression(string.Format(".*{0}.*", value.keySearch), "i")));
 
                     if (value.permission != "all")
                         filter &= (value.permission.filterPermission<Donate>("category"));
