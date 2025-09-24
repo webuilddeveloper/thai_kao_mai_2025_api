@@ -15,6 +15,12 @@ namespace cms_api.Controllers
     {
         public DashboardController() { }
 
+        public class Dashboard
+        {
+            public string name { get; set; }
+            public int values { get; set; }
+        }
+
         #region main
 
         // POST /read
@@ -24,7 +30,7 @@ namespace cms_api.Controllers
 
             try
             {
-                var col = new Database().MongoClient<Veterinary2>("m_Veterinary_2");
+                var col = new Database().MongoClient<Veterinary2>("partyMembers");
                 var filter = Builders<Veterinary2>.Filter.Ne("status", "D");
 
                 var ds = value.startDate.toDateFromString().toBetweenDate();
@@ -49,6 +55,48 @@ namespace cms_api.Controllers
         }
 
         #endregion
+
+        // GET /registerJob
+        [HttpGet("registerJob")]
+        public ActionResult<IEnumerable<Dashboard>> registerJob()
+        {
+            try
+            {
+                var col = new Database().MongoClient<PartyMembers>("partyMembers");
+                var filter = Builders<PartyMembers>.Filter.Ne("status", "D");
+
+                var doc = col.Find(filter & Builders<PartyMembers>.Filter.Ne("currentOccupation", BsonNull.Value)).Project(c => c.currentOccupation ?? "").ToList();
+
+                var docGroup = doc.GroupBy(g => g).Select(s => new Dashboard { name = s.Key == "" ? "ไม่ระบุอาชีพ" : s.Key, values = s.Count() }).ToList();
+
+                return docGroup;
+            }
+            catch (Exception ex)
+            {
+                return new List<Dashboard>();
+            }
+        }
+
+        // GET /registerProvince
+        [HttpGet("registerProvince")]
+        public ActionResult<IEnumerable<Dashboard>> registerProvince()
+        {
+            try
+            {
+                var col = new Database().MongoClient<PartyMembers>("partyMembers");
+                var filter = Builders<PartyMembers>.Filter.Ne("status", "D");
+
+                var doc = col.Find(filter & Builders<PartyMembers>.Filter.Ne("province", BsonNull.Value)).Project(c => c.province ?? "").ToList();
+
+                var docGroup = doc.GroupBy(g => g).Select(s => new Dashboard { name = s.Key == "" ? "ไม่ระบุจังหวัด" : s.Key, values = s.Count() }).ToList();
+
+                return docGroup;
+            }
+            catch (Exception ex)
+            {
+                return new List<Dashboard>();
+            }
+        }
 
     }
 }
