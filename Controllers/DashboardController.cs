@@ -56,6 +56,43 @@ namespace cms_api.Controllers
 
         #endregion
 
+        [HttpGet("registerAll")]
+        public ActionResult<IEnumerable<Dashboard>> registerAll()
+        {
+            try
+            {
+
+                var col = new Database().MongoClient<PartyMembers>("partyMembers");
+                var filter = Builders<PartyMembers>.Filter.Ne("status", "D");
+
+                var total_all = (int)col.CountDocuments(filter);
+
+                var data = new List<Dashboard>() {
+                    new Dashboard { name = "ทั้งหมด" , values = total_all },
+                };
+
+                data.Add(new Dashboard { name = "ข้อมูลอาชีพ", values = total_all });
+                //Job
+                var docJob = col.Find(filter & Builders<PartyMembers>.Filter.Ne("currentOccupation", BsonNull.Value)).Project(c => c.currentOccupation ?? "").ToList();
+                var docGroupJob = docJob.GroupBy(g => g).Select(s => new Dashboard { name = s.Key == "" ? "ไม่ระบุอาชีพ" : s.Key, values = s.Count() }).ToList();
+                data.AddRange(docGroupJob);
+
+                data.Add( new Dashboard { name = "ข้อมูลจังหวัด" , values = total_all });
+
+                //province
+                var docProvince = col.Find(filter & Builders<PartyMembers>.Filter.Ne("province", BsonNull.Value)).Project(c => c.province ?? "").ToList();
+                var docGroupProvince = docProvince.GroupBy(g => g).Select(s => new Dashboard { name = s.Key == "" ? "ไม่ระบุจังหวัด" : s.Key, values = s.Count() }).ToList();
+                data.AddRange(docGroupProvince);
+
+                return data;
+
+            }
+            catch (Exception ex)
+            {
+                return new List<Dashboard>();
+            }
+        }
+
         // GET /registerJob
         [HttpGet("registerJob")]
         public ActionResult<IEnumerable<Dashboard>> registerJob()
