@@ -102,6 +102,15 @@ namespace cms_api.Controllers
                 else
                 {
                     if (!string.IsNullOrEmpty(value.code)) { filter &= Builders<PartyFanClub>.Filter.Eq("code", value.code); }
+                    if (!string.IsNullOrEmpty(value.status)) { filter &= Builders<PartyFanClub>.Filter.Eq("status", value.status); }
+
+                    if (!string.IsNullOrEmpty(value.createBy)) { filter = filter & Builders<PartyFanClub>.Filter.Regex("createBy", new BsonRegularExpression(string.Format(".*{0}.*", value.createBy), "i")); }
+
+                    var ds = value.startDate.toDateFromString().toBetweenDate();
+                    var de = value.endDate.toDateFromString().toBetweenDate();
+                    if (value.startDate != "Invalid date" && value.endDate != "Invalid date" && !string.IsNullOrEmpty(value.startDate) && !string.IsNullOrEmpty(value.endDate)) { filter = filter & Builders<PartyFanClub>.Filter.Gt("docDate", ds.start) & Builders<PartyFanClub>.Filter.Lt("docDate", de.end); }
+                    else if (value.startDate != "Invalid date" && !string.IsNullOrEmpty(value.startDate)) { filter = filter & Builders<PartyFanClub>.Filter.Gt("docDate", ds.start) & Builders<PartyFanClub>.Filter.Lt("docDate", ds.end); }
+                    else if (value.endDate != "Invalid date" && !string.IsNullOrEmpty(value.endDate)) { filter = filter & Builders<PartyFanClub>.Filter.Gt("docDate", de.start) & Builders<PartyFanClub>.Filter.Lt("docDate", de.end); }
 
                 }
                 var docs = col.Find(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).Skip(value.skip).Limit(value.limit).Project(c =>
