@@ -66,9 +66,13 @@ namespace cms_api.Controllers
                 var filter = Builders<PartyMembers>.Filter.Ne("status", "D");
 
                 var total_all = (int)col.CountDocuments(filter);
+                var total_statusA = (int)col.CountDocuments(filter & Builders<PartyMembers>.Filter.Eq("status", "A"));
+                var total_StatusN = (int)col.CountDocuments(filter & Builders<PartyMembers>.Filter.Eq("status", "N"));
 
                 var data = new List<Dashboard>() {
-                    new Dashboard { name = "ทั้งหมด" , values = total_all },
+                    new Dashboard { name = "สมาชิกทั้งหมด" , values = total_all },
+                       new Dashboard { name = "สมาชิกที่ผ่านที่อนุมัติ" , values = total_statusA },
+                       new Dashboard { name = "สมาชิกที่รออนุมัติ" , values = total_StatusN },
                 };
 
                 data.Add(new Dashboard { name = "ข้อมูลอาชีพ", values = total_all });
