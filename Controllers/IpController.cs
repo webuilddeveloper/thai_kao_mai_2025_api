@@ -76,7 +76,11 @@ namespace cms_api.Controllers
                 if (value.status2 == "member")
                 {
                     filter &= Builders<User>.Filter.Ne("username", "");
+                }
 
+                if (!string.IsNullOrEmpty(value.keySearch))
+                {
+                    filter = (filter & Builders<User>.Filter.Regex("page", value.keySearch)) | (filter & Builders<User>.Filter.Regex("ipAddress", value.keySearch));
                 }
 
                 List<User> data = col.Aggregate().Match(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).SortByDescending(o => o.docDate).Project(c => new User
@@ -211,7 +215,11 @@ namespace cms_api.Controllers
                 if (value.status2 == "member")
                 {
                     filter &= Builders<User>.Filter.Ne("username", "");
+                }
 
+                if (!string.IsNullOrEmpty(value.keySearch))
+                {
+                    filter = (filter & Builders<User>.Filter.Regex("page", value.keySearch)) | (filter & Builders<User>.Filter.Regex("ipAddress", value.keySearch));
                 }
 
                 var data = col.Aggregate().Match(filter).SortByDescending(o => o.docDate).ThenByDescending(o => o.updateTime).SortByDescending(o => o.docDate).Project(c => new {
