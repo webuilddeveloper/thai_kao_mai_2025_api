@@ -374,7 +374,22 @@ namespace cms_api.Controllers
                 doc["isActive"] = value.status == "A" ? true : false;
                 doc["status"] = value.status;
 
+                if (value.status == "S")
+                    doc["isMail"] = true;
+
                 col.ReplaceOne(filter, doc);
+
+                if (value.status == "S" && doc["isMail"] == true) {
+                    Task.Run(async () =>
+                    {
+                        var pdfBytes = await getReportAsync(value, "succeed");
+                        new SendMailService($"https://gateway.we-builds.com/thai-kao-mai-api/partyMembers/updateVerify?code={value.code}&email={value.email}"
+                            , "อนุมัติการเป็นสมาชิก"
+                            , value.email
+                            , $"{value.title} {value.firstName} {value.lastName}"
+                            , pdfBytes);
+                    });
+                }
 
                 return new Response { status = "S", message = "success", jsonData = doc.ToJson(), objectData = BsonSerializer.Deserialize<object>(doc) };
             }
@@ -545,7 +560,7 @@ namespace cms_api.Controllers
             }
         }
 
-        private async Task<byte[]> getReportAsync(PartyMembers data)
+        private async Task<byte[]> getReportAsync(PartyMembers data,String type = "")
         {
             var date = DateTime.Now;
             var thaiCulture = new CultureInfo("th-TH");
@@ -573,6 +588,7 @@ namespace cms_api.Controllers
                 idcard = data.idcard,
                 money = data.registerType == "yearly" ? "20" : "200",
                 moneyth = data.registerType == "yearly" ? "ยี่สิบบาทถ้วน" : "สองร้อยบาทถ้วน",
+                type= type,
             };
 
         var httpClient = new HttpClient();
