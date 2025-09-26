@@ -133,6 +133,7 @@ namespace cms_api.Controllers
                     { "docTime", DateTime.Now.toTimeStringFromDate() },
                     { "isActive", value.status == "A" ? true: false },
                     { "status", value.status },
+                    { "isMail", false }
                 };
                 col.InsertOne(doc);
 
@@ -314,6 +315,7 @@ namespace cms_api.Controllers
                 doc = col.Find(filter).FirstOrDefault();
                 var model = BsonSerializer.Deserialize<object>(doc);
 
+
                 if (!string.IsNullOrEmpty(value.idcard)) { doc["idcard"] = value.idcard; }
                 if (!string.IsNullOrEmpty(value.prefixName)) { doc["prefixName"] = value.prefixName; }
                 if (!string.IsNullOrEmpty(value.firstName)) { doc["firstName"] = value.firstName; }
@@ -374,12 +376,14 @@ namespace cms_api.Controllers
                 doc["isActive"] = value.status == "A" ? true : false;
                 doc["status"] = value.status;
 
-                if (value.status == "S")
+                var isMail = doc["isMail"] ?? false;
+
+                if (value.status == "A")
                     doc["isMail"] = true;
 
                 col.ReplaceOne(filter, doc);
 
-                if (value.status == "S" && doc["isMail"] == true) {
+                if (value.status == "A" && isMail == false) {
                     Task.Run(async () =>
                     {
                         var pdfBytes = await getReportAsync(value, "succeed");

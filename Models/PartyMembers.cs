@@ -62,6 +62,7 @@ namespace cms_api.Models
             lineID = "";
             slipPay = "";
 
+            isMail = false;
         }
 
         public string idcard { get; set; }
@@ -118,5 +119,7 @@ namespace cms_api.Models
         public string registerType { get; set; }
         public string lineID { get; set; }
         public string slipPay { get; set; }
+
+        public bool isMail { get; set; }
     }
 }
